@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "NutriVim",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
