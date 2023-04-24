@@ -12,7 +12,7 @@ const useStyles = createUseStyles({
 });
 
 const CalorieDisplay = () => {
-  const { data: testValue, isLoading } = useTestValue();
+  const { testValue, isLoading } = useTestValue();
   const classes = useStyles();
 
   return (

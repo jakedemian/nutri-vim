@@ -9,11 +9,7 @@ import CalorieDisplay from "./CalorieDisplay";
 import { createUseStyles } from "react-jss";
 import { add } from "ionicons/icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useQueryClient } from "react-query";
-import {
-  getTestValueQueryKey,
-  getTestValueStorageKey,
-} from "../../hooks/useTestValue";
+import { getTestValueStorageKey, useTestValue } from "../../hooks/useTestValue";
 import debounce from "lodash/debounce";
 
 const useStyles = createUseStyles({
@@ -26,19 +22,14 @@ const useStyles = createUseStyles({
 });
 
 const Today: React.FC = () => {
-  const queryClient = useQueryClient();
+  const { updateTestValue } = useTestValue();
 
   const onFabClick = debounce(async () => {
     const value = await AsyncStorage.getItem(getTestValueStorageKey());
     const numberValue = !!value && !isNaN(Number(value)) ? Number(value) : 0;
 
-    AsyncStorage.setItem(
-      getTestValueStorageKey(),
-      (numberValue + 1).toString()
-    ).then(() => {
-      queryClient.invalidateQueries(getTestValueQueryKey());
-    });
-  }, 25);
+    updateTestValue(numberValue + 2);
+  }, 100);
 
   const classes = useStyles();
   return (
