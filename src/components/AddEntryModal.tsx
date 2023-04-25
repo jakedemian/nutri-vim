@@ -6,7 +6,6 @@ import {
   IonIcon,
   IonInput,
   IonItem,
-  IonLabel,
   IonModal,
   IonTitle,
   IonToolbar,
@@ -42,13 +41,19 @@ const AddEntryModal = () => {
     modal.current?.dismiss(input.current?.value, "confirm");
   }
 
-  function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
-    if (ev.detail.role === "confirm") {
-      console.log(`Hello, ${ev.detail.data}!`);
-    }
+  function cancel() {
+    modal.current?.dismiss();
   }
 
-  console.log(formState);
+  function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
+    if (ev.detail.role === "confirm") {
+      console.log(`${formState.name} -> ${formState.calories}`);
+
+      // TODO save to async storage!
+    }
+
+    setFormState({});
+  }
 
   return (
     <IonModal
@@ -59,23 +64,19 @@ const AddEntryModal = () => {
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
-            <IonButton onClick={() => modal.current?.dismiss()}>
+            <IonButton onClick={cancel}>
               <IonIcon icon={arrowBack}></IonIcon>
             </IonButton>
           </IonButtons>
           <IonTitle>Add Food</IonTitle>
-          {/* <IonButtons slot="end">
-            <IonButton strong={true} onClick={() => confirm()}>
-              <IonIcon icon={checkmarkDoneSharp}></IonIcon>
-            </IonButton>
-          </IonButtons> */}
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
         <div className={classes.form}>
           <IonItem className={classes.formItem}>
-            <IonLabel position="stacked">Food</IonLabel>
             <IonInput
+              label="Food"
+              labelPlacement="stacked"
               type="text"
               placeholder="What did you eat?"
               value={formState.name}
@@ -92,9 +93,10 @@ const AddEntryModal = () => {
             />
           </IonItem>
           <IonItem className={classes.formItem}>
-            <IonLabel position="stacked">Calories</IonLabel>
             <IonInput
-              type="number"
+              label="Calories"
+              labelPlacement="stacked"
+              type="text"
               placeholder="How many calories?"
               value={formState.calories}
               onIonInput={(e) => {
@@ -111,7 +113,6 @@ const AddEntryModal = () => {
           </IonItem>
         </div>
         <IonButton
-          //strong={true}
           onClick={() => confirm()}
           expand="block"
           disabled={!formState.name || !formState.calories}
