@@ -1,6 +1,6 @@
 import { IonText } from "@ionic/react";
 import { createUseStyles } from "react-jss";
-import { useTestValue } from "../../hooks/useTestValue";
+// import { useTestValue } from "../../hooks/useTestValue";
 
 const useStyles = createUseStyles({
   container: {
@@ -14,6 +14,10 @@ const useStyles = createUseStyles({
     fontWeight: 500,
     lineHeight: "0.75em",
   },
+  caloriesLabel: {
+    color: "white",
+    fontSize: "1.5em",
+  },
 });
 
 const CalorieDisplay = () => {
@@ -23,7 +27,7 @@ const CalorieDisplay = () => {
   return (
     <div className={classes.container}>
       <IonText className={classes.calorieDisplay}>1234</IonText>
-      <IonText>calories</IonText>
+      <IonText className={classes.caloriesLabel}>calories</IonText>
 
       {/* {isLoading ? (
         <div>Loading...</div>
