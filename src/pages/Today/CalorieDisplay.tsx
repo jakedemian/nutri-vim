@@ -1,6 +1,6 @@
 import { IonText } from "@ionic/react";
 import { createUseStyles } from "react-jss";
-// import { useTestValue } from "../../hooks/useTestValue";
+import { useFoodEntries } from "../../hooks/useFoodEntries";
 
 const useStyles = createUseStyles({
   container: {
@@ -21,19 +21,15 @@ const useStyles = createUseStyles({
 });
 
 const CalorieDisplay = () => {
-  //   const { testValue, isLoading } = useTestValue();
   const classes = useStyles();
+  const { isLoading, calorieCount } = useFoodEntries();
 
   return (
     <div className={classes.container}>
-      <IonText className={classes.calorieDisplay}>1234</IonText>
+      <IonText className={classes.calorieDisplay}>
+        {isLoading ? "----" : calorieCount}
+      </IonText>
       <IonText className={classes.caloriesLabel}>calories</IonText>
-
-      {/* {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <IonText>{testValue || "no value"}</IonText>
-      )} */}
     </div>
   );
 };

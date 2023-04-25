@@ -10,8 +10,9 @@ import {
 } from "@ionic/react";
 import CalorieDisplay from "./CalorieDisplay";
 import { createUseStyles } from "react-jss";
-import { add } from "ionicons/icons";
+import { add, trash } from "ionicons/icons";
 import AddEntryModal from "../../components/AddEntryModal";
+import { useFoodEntries } from "../../hooks/useFoodEntries";
 
 const useStyles = createUseStyles({
   pageContent: {
@@ -23,23 +24,19 @@ const useStyles = createUseStyles({
 });
 
 const Today: React.FC = () => {
-  // const { updateTestValue } = useTestValue();
-
-  // const onAddClick = debounce(async () => {
-  //   console.log("click!");
-  //   const value = await AsyncStorage.getItem(getTestValueStorageKey());
-  //   const numberValue = !!value && !isNaN(Number(value)) ? Number(value) : 0;
-
-  //   updateTestValue(numberValue + 2);
-  // }, 100);
-
   const classes = useStyles();
+  const { clearFoodEntries } = useFoodEntries();
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
           <IonTitle>Today</IonTitle>
           <IonButtons slot="end">
+            {/* TODO add alert confirmation */}
+            <IonButton onClick={() => clearFoodEntries()}>
+              <IonIcon icon={trash}></IonIcon>
+            </IonButton>
             <IonButton id="open-add-entry-modal">
               <IonIcon icon={add}></IonIcon>
             </IonButton>

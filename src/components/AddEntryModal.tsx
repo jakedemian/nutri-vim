@@ -14,6 +14,8 @@ import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-com
 import { arrowBack } from "ionicons/icons";
 import React, { useRef, useState } from "react";
 import { createUseStyles } from "react-jss";
+import { useFoodEntries } from "../hooks/useFoodEntries";
+import { v4 } from "uuid";
 
 const useStyles = createUseStyles({
   form: {
@@ -36,6 +38,7 @@ const AddEntryModal = () => {
   const input = useRef<HTMLIonInputElement>(null);
 
   const [formState, setFormState] = useState<AddEntryFormData>({});
+  const { addFoodEntry } = useFoodEntries();
 
   function confirm() {
     modal.current?.dismiss(input.current?.value, "confirm");
@@ -49,7 +52,18 @@ const AddEntryModal = () => {
     if (ev.detail.role === "confirm") {
       console.log(`${formState.name} -> ${formState.calories}`);
 
-      // TODO save to async storage!
+      if (!formState.name || !formState.calories) {
+        return;
+      }
+
+      // TODO need validation around formState.calories being a number
+
+      addFoodEntry({
+        id: v4(),
+        name: formState.name,
+        calories: Number(formState.calories),
+        createdAt: new Date(),
+      });
     }
 
     setFormState({});
@@ -96,7 +110,7 @@ const AddEntryModal = () => {
             <IonInput
               label="Calories"
               labelPlacement="stacked"
-              type="text"
+              type="number"
               placeholder="How many calories?"
               value={formState.calories}
               onIonInput={(e) => {

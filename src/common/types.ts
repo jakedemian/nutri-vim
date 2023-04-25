@@ -1,5 +1,6 @@
 export type Entry = {
+  id: string;
   name: string;
-  calories: string;
-  createdAt: string;
+  calories: number;
+  createdAt: Date;
 };
