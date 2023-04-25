@@ -50,8 +50,6 @@ const AddEntryModal = () => {
 
   function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
     if (ev.detail.role === "confirm") {
-      console.log(`${formState.name} -> ${formState.calories}`);
-
       if (!formState.name || !formState.calories) {
         return;
       }
@@ -62,7 +60,7 @@ const AddEntryModal = () => {
         id: v4(),
         name: formState.name,
         calories: Number(formState.calories),
-        createdAt: new Date(),
+        createdAt: new Date().toString(),
       });
     }
 

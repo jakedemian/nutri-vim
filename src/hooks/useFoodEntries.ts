@@ -13,6 +13,8 @@ export const useFoodEntries = () => {
     try {
       const stringJson = await AsyncStorage.getItem(getFoodEntriesStorageKey());
       return stringJson ? JSON.parse(stringJson) : [];
+
+      // TODO sort the results by createdAt
     } catch (error) {
       console.error("Error fetching data from AsyncStorage:", error);
       throw error;
@@ -59,6 +61,15 @@ export const useFoodEntries = () => {
     await _updateFoodEntries(newEntriesArray);
   };
 
+  const deleteFoodEntry = async (entryId: string) => {
+    const currentEntries = query.data || [];
+    const updatedEntries = currentEntries.filter(
+      (entry: Entry) => entry.id !== entryId
+    );
+
+    await _updateFoodEntries(updatedEntries);
+  };
+
   const clearFoodEntries = async () => {
     await _updateFoodEntries([]);
   };
@@ -68,6 +79,7 @@ export const useFoodEntries = () => {
     isLoading: query.isLoading,
     addFoodEntry: addFoodEntry,
     updateFoodEntry: updateFoodEntry,
+    deleteFoodEntry: deleteFoodEntry,
     clearFoodEntries: clearFoodEntries,
     calorieCount: calorieCount,
   };

@@ -10,10 +10,9 @@ import {
   setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { ellipse, square, todaySharp } from "ionicons/icons";
+import { listSharp, todaySharp } from "ionicons/icons";
 import Today from "./pages/Today";
-import Tab2 from "./pages/Tab2";
-import Tab3 from "./pages/Tab3";
+import List from "./pages/List";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -45,12 +44,12 @@ const App: React.FC = () => (
           <Route exact path="/today">
             <Today />
           </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
+          <Route exact path="/list">
+            <List />
           </Route>
-          <Route path="/tab3">
+          {/* <Route path="/tab3">
             <Tab3 />
-          </Route>
+          </Route> */}
 
           <Route exact path="/">
             <Redirect to="/today" />
@@ -61,14 +60,14 @@ const App: React.FC = () => (
             <IonIcon aria-hidden="true" icon={todaySharp} />
             <IonLabel>Today</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
+          <IonTabButton tab="list" href="/list">
+            <IonIcon aria-hidden="true" icon={listSharp} />
+            <IonLabel>List</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
+          {/* <IonTabButton tab="tab3" href="/tab3">
             <IonIcon aria-hidden="true" icon={square} />
             <IonLabel>Tab 3</IonLabel>
-          </IonTabButton>
+          </IonTabButton> */}
         </IonTabBar>
       </IonTabs>
     </IonReactRouter>
