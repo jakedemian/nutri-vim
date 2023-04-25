@@ -8,11 +8,16 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     alignItems: "center",
   },
-  calorieDisplay: { color: "white", fontSize: "5em" },
+  calorieDisplay: {
+    color: "white",
+    fontSize: "7em",
+    fontWeight: 500,
+    lineHeight: "0.75em",
+  },
 });
 
 const CalorieDisplay = () => {
-  const { testValue, isLoading } = useTestValue();
+  //   const { testValue, isLoading } = useTestValue();
   const classes = useStyles();
 
   return (
@@ -20,11 +25,11 @@ const CalorieDisplay = () => {
       <IonText className={classes.calorieDisplay}>1234</IonText>
       <IonText>calories</IonText>
 
-      {isLoading ? (
+      {/* {isLoading ? (
         <div>Loading...</div>
       ) : (
         <IonText>{testValue || "no value"}</IonText>
-      )}
+      )} */}
     </div>
   );
 };
