@@ -129,7 +129,11 @@ const AddEntryModal = () => {
         <IonButton
           onClick={() => confirm()}
           expand="block"
-          disabled={!formState.name || !formState.calories}
+          disabled={
+            !formState.name ||
+            !formState.calories ||
+            isNaN(Number(formState.calories))
+          }
         >
           Add
         </IonButton>
