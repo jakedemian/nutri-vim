@@ -1,4 +1,5 @@
 import {
+  IonAlert,
   IonButton,
   IonButtons,
   IonContent,
@@ -33,8 +34,7 @@ const Today: React.FC = () => {
         <IonToolbar color="primary">
           <IonTitle>Today</IonTitle>
           <IonButtons slot="end">
-            {/* TODO add alert confirmation */}
-            <IonButton onClick={() => clearFoodEntries()}>
+            <IonButton id="reset-calories-trigger">
               <IonIcon icon={trash}></IonIcon>
             </IonButton>
             <IonButton id="open-add-entry-modal">
@@ -48,6 +48,24 @@ const Today: React.FC = () => {
           <CalorieDisplay />
         </div>
         <AddEntryModal />
+        <IonAlert
+          header="Clear data?"
+          message="Clear food entries for entire day?  This cannot be undone."
+          trigger="reset-calories-trigger"
+          buttons={[
+            {
+              text: "Cancel",
+              role: "cancel",
+            },
+            {
+              text: "OK",
+              role: "confirm",
+              handler: () => {
+                clearFoodEntries();
+              },
+            },
+          ]}
+        ></IonAlert>
       </IonContent>
     </IonPage>
   );
