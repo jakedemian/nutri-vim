@@ -88,13 +88,12 @@ const List: React.FC = () => {
     setEditingEntryId(null);
   };
 
-  let content = <div>Loading</div>;
   if (isLoading) {
-    return content;
+    return <div>Loading</div>;
   }
 
-  content = (
-    <IonContent fullscreen>
+  return (
+    <>
       {foodEntries.map((entry: Entry, index: number) => (
         <IonCard key={index} color={selectedItem === index ? "primary" : ""}>
           <IonCardContent>
@@ -167,28 +166,7 @@ const List: React.FC = () => {
         entryId={editingEntryId}
         onDismiss={onEditModalDismissed}
       />
-    </IonContent>
-  );
-
-  return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar color="primary">
-          <IonTitle>List</IonTitle>
-          <IonButtons slot="end">
-            {/* TODO wrap IonRouterOutlet in App.tsx in another component
-             that handles the alert and modal stuff, as well as this header */}
-            {/* <IonButton id="reset-calories-trigger">
-              <IonIcon icon={trash}></IonIcon>
-            </IonButton>
-            <IonButton id="open-add-entry-modal">
-              <IonIcon icon={add}></IonIcon>
-            </IonButton> */}
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
-      {content}
-    </IonPage>
+    </>
   );
 };
 

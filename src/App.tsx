@@ -1,4 +1,4 @@
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import {
   IonApp,
   IonIcon,
@@ -42,19 +42,21 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/today">
-            <ContentWrapper>
-              <Today />
-            </ContentWrapper>
-          </Route>
-          <Route exact path="/list">
-            <ContentWrapper>
-              <List />
-            </ContentWrapper>
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/today" />
-          </Route>
+          <Switch>
+            <Route exact path="/today">
+              <ContentWrapper title="Today">
+                <Today />
+              </ContentWrapper>
+            </Route>
+            <Route exact path="/list">
+              <ContentWrapper title="List">
+                <List />
+              </ContentWrapper>
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/today" />
+            </Route>
+          </Switch>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="today" href="/today">
