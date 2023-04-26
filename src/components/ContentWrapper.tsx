@@ -14,11 +14,19 @@ import React from "react";
 import { Toaster } from "react-hot-toast";
 import AddEntryModal from "./AddEntryModal";
 import { useFoodEntries } from "../hooks/useFoodEntries";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  title: {
+    fontSize: 24,
+  },
+});
 
 const ContentWrapper: React.FC<{
   children: React.ReactNode;
   title: string;
 }> = ({ children, title }) => {
+  const classes = useStyles();
   const { clearFoodEntries } = useFoodEntries();
 
   return (
@@ -26,13 +34,13 @@ const ContentWrapper: React.FC<{
       <IonPage>
         <IonHeader>
           <IonToolbar color="primary">
-            <IonTitle>{title}</IonTitle>
+            <IonTitle className={classes.title}>{title}</IonTitle>
             <IonButtons slot="end">
               <IonButton id="reset-calories-trigger">
-                <IonIcon icon={trash}></IonIcon>
+                <IonIcon icon={trash} size="large"></IonIcon>
               </IonButton>
               <IonButton id="open-add-entry-modal">
-                <IonIcon icon={add}></IonIcon>
+                <IonIcon icon={add} size="large"></IonIcon>
               </IonButton>
             </IonButtons>
           </IonToolbar>

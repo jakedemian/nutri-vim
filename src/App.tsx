@@ -34,43 +34,56 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import "./index.css";
 import ContentWrapper from "./components/ContentWrapper";
+import { createUseStyles } from "react-jss";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Switch>
-            <Route exact path="/today">
-              <ContentWrapper title="Today">
-                <Today />
-              </ContentWrapper>
-            </Route>
-            <Route exact path="/list">
-              <ContentWrapper title="List">
-                <List />
-              </ContentWrapper>
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/today" />
-            </Route>
-          </Switch>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="today" href="/today">
-            <IonIcon aria-hidden="true" icon={todaySharp} />
-            <IonLabel>Today</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="list" href="/list">
-            <IonIcon aria-hidden="true" icon={listSharp} />
-            <IonLabel>List</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const useStyles = createUseStyles({
+  tabBar: {
+    height: 64,
+  },
+  tabLabel: {
+    fontSize: 18,
+  },
+});
+
+const App: React.FC = () => {
+  const classes = useStyles();
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Switch>
+              <Route exact path="/today">
+                <ContentWrapper title="Today">
+                  <Today />
+                </ContentWrapper>
+              </Route>
+              <Route exact path="/list">
+                <ContentWrapper title="List">
+                  <List />
+                </ContentWrapper>
+              </Route>
+              <Route exact path="/">
+                <Redirect to="/today" />
+              </Route>
+            </Switch>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom" className={classes.tabBar}>
+            <IonTabButton tab="today" href="/today">
+              <IonIcon aria-hidden="true" icon={todaySharp} size="large" />
+              <IonLabel className={classes.tabLabel}>Today</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="list" href="/list">
+              <IonIcon aria-hidden="true" icon={listSharp} size="large" />
+              <IonLabel className={classes.tabLabel}>List</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;

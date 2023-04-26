@@ -4,13 +4,8 @@ import {
   IonButtons,
   IonCard,
   IonCardContent,
-  IonContent,
-  IonHeader,
   IonIcon,
-  IonPage,
   IonText,
-  IonTitle,
-  IonToolbar,
 } from "@ionic/react";
 import { iceCreamSharp, pencilSharp, trash } from "ionicons/icons";
 import { useState } from "react";
