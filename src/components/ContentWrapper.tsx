@@ -20,7 +20,6 @@ const ContentWrapper: React.FC<{
   title: string;
 }> = ({ children, title }) => {
   const { clearFoodEntries } = useFoodEntries();
-  console.log("rendering with title: ", title);
 
   return (
     <>
