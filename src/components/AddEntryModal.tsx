@@ -1,21 +1,26 @@
+import React, { useEffect, useRef, useState } from "react";
 import {
   IonButton,
   IonButtons,
   IonContent,
+  IonDatetime,
   IonHeader,
   IonIcon,
   IonInput,
   IonItem,
   IonModal,
+  IonPopover,
+  IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { arrowBack } from "ionicons/icons";
-import React, { useRef, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { useFoodEntries } from "../hooks/useFoodEntries";
 import { v4 } from "uuid";
+import { formatDisplayTime } from "../util/formatDisplayTime";
+import { getCurrentLocalTimeISOString } from "../util/getCurrentLocalTimeISOString";
 
 const useStyles = createUseStyles({
   form: {
@@ -25,11 +30,25 @@ const useStyles = createUseStyles({
     marginTop: 4,
     marginBottom: 4,
   },
+  timeContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+    alignItems: "center",
+  },
+  timeTextContainer: {
+    display: "flex",
+    flexDirection: "column",
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  timePopoverButtons: { display: "flex", justifyContent: "flex-end" },
 });
 
 type AddEntryFormData = {
   name?: string;
   calories?: string;
+  time?: string;
 };
 
 const AddEntryModal = () => {
@@ -38,6 +57,7 @@ const AddEntryModal = () => {
   const input = useRef<HTMLIonInputElement>(null);
 
   const [formState, setFormState] = useState<AddEntryFormData>({});
+  const [showPopover, setShowPopover] = useState<boolean>(false);
   const { addFoodEntry } = useFoodEntries();
 
   function confirm() {
@@ -50,22 +70,30 @@ const AddEntryModal = () => {
 
   function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
     if (ev.detail.role === "confirm") {
-      if (!formState.name || !formState.calories) {
+      // TODO need better validation logic
+      if (!formState.name || !formState.calories || !formState.time) {
         return;
       }
-
-      // TODO need better validation around formState.calories being a number
 
       addFoodEntry({
         id: v4(),
         name: formState.name,
         calories: Number(formState.calories),
+        time: formState.time,
         createdAt: new Date().toString(),
       });
     }
 
     setFormState({});
   }
+
+  useEffect(() => {
+    setFormState({
+      ...formState,
+      time: getCurrentLocalTimeISOString(),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <IonModal
@@ -119,6 +147,15 @@ const AddEntryModal = () => {
               }}
             />
           </IonItem>
+          <IonItem>
+            <div className={classes.timeContainer}>
+              <div className={classes.timeTextContainer}>
+                <IonText style={{ fontSize: 12 }}>Time</IonText>
+                <IonText>{formatDisplayTime(formState.time as string)}</IonText>
+              </div>
+              <IonButton onClick={() => setShowPopover(true)}>Change</IonButton>
+            </div>
+          </IonItem>
         </div>
         <IonButton
           onClick={() => confirm()}
@@ -131,6 +168,29 @@ const AddEntryModal = () => {
         >
           Add
         </IonButton>
+        <IonPopover
+          isOpen={showPopover}
+          onDidDismiss={() => setShowPopover(false)}
+        >
+          <IonDatetime
+            presentation="time"
+            value={formState.time}
+            onIonChange={(e) => {
+              const val = (e.target.value as string) || "";
+              setFormState({
+                ...formState,
+                time: val,
+              });
+            }}
+          ></IonDatetime>
+          <IonButton
+            fill="clear"
+            style={{ fontWeight: 700 }}
+            onClick={() => setShowPopover(false)}
+          >
+            Save
+          </IonButton>
+        </IonPopover>
       </IonContent>
     </IonModal>
   );

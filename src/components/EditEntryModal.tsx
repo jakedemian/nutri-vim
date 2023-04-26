@@ -2,11 +2,14 @@ import {
   IonButton,
   IonButtons,
   IonContent,
+  IonDatetime,
   IonHeader,
   IonIcon,
   IonInput,
   IonItem,
   IonModal,
+  IonPopover,
+  IonText,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -16,6 +19,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { useFoodEntries } from "../hooks/useFoodEntries";
 import { Entry } from "../common/types";
+import { formatDisplayTime } from "../util/formatDisplayTime";
 
 const useStyles = createUseStyles({
   form: {
@@ -25,11 +29,24 @@ const useStyles = createUseStyles({
     marginTop: 4,
     marginBottom: 4,
   },
+  timeContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+    alignItems: "center",
+  },
+  timeTextContainer: {
+    display: "flex",
+    flexDirection: "column",
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
 });
 
 type EditEntryFormData = {
   name?: string;
   calories?: string;
+  time?: string;
 };
 
 type EditEntryModalProps = {
@@ -48,6 +65,7 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
   const [formState, setFormState] = useState<EditEntryFormData>({});
   const [editingEntry, setEditingEntry] = useState<Entry | undefined>();
   const { updateFoodEntry, foodEntries } = useFoodEntries();
+  const [showPopover, setShowPopover] = useState<boolean>(false);
 
   useEffect(() => {
     if (entryId && foodEntries && foodEntries.length > 0) {
@@ -59,6 +77,7 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
       setFormState({
         name: thisEntry.name,
         calories: thisEntry.calories.toString(),
+        time: thisEntry.time,
       });
     }
   }, [foodEntries, entryId]);
@@ -73,7 +92,12 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
 
   function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
     if (ev.detail.role === "confirm") {
-      if (!editingEntry || !formState.name || !formState.calories) {
+      if (
+        !editingEntry ||
+        !formState.name ||
+        !formState.calories ||
+        !formState.time
+      ) {
         return;
       }
 
@@ -82,6 +106,7 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
         id: editingEntry.id,
         name: formState.name,
         calories: Number(formState.calories),
+        time: formState.time,
         createdAt: editingEntry.createdAt,
       };
 
@@ -146,6 +171,15 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
               }}
             />
           </IonItem>
+          <IonItem>
+            <div className={classes.timeContainer}>
+              <div className={classes.timeTextContainer}>
+                <IonText style={{ fontSize: 12 }}>Time</IonText>
+                <IonText>{formatDisplayTime(formState.time as string)}</IonText>
+              </div>
+              <IonButton onClick={() => setShowPopover(true)}>Change</IonButton>
+            </div>
+          </IonItem>
         </div>
         <IonButton
           onClick={() => confirm()}
@@ -159,6 +193,29 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
         >
           Save
         </IonButton>
+        <IonPopover
+          isOpen={showPopover}
+          onDidDismiss={() => setShowPopover(false)}
+        >
+          <IonDatetime
+            presentation="time"
+            value={formState.time}
+            onIonChange={(e) => {
+              const val = (e.target.value as string) || "";
+              setFormState({
+                ...formState,
+                time: val,
+              });
+            }}
+          ></IonDatetime>
+          <IonButton
+            fill="clear"
+            style={{ fontWeight: 700 }}
+            onClick={() => setShowPopover(false)}
+          >
+            Save
+          </IonButton>
+        </IonPopover>
       </IonContent>
     </IonModal>
   );

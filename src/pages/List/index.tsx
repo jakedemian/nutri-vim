@@ -13,6 +13,7 @@ import { createUseStyles } from "react-jss";
 import { useFoodEntries } from "../../hooks/useFoodEntries";
 import { Entry } from "../../common/types";
 import EditEntryModal from "../../components/EditEntryModal";
+import { formatDisplayTime } from "../../util/formatDisplayTime";
 
 const useStyles = createUseStyles({
   footer: {
@@ -64,21 +65,6 @@ const List: React.FC = () => {
   const [editingEntryId, setEditingEntryId] = useState<string | null>(null);
   const { foodEntries, deleteFoodEntry, isLoading } = useFoodEntries();
 
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-
-    let hours: number = date.getHours();
-    let minutes: number = date.getMinutes();
-    let ampm: string = hours >= 12 ? "pm" : "am";
-
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    const minutesString: string =
-      minutes < 10 ? "0" + minutes.toString() : minutes.toString();
-
-    return `${hours}:${minutesString} ${ampm}`;
-  };
-
   const onEditModalDismissed = () => {
     setEditingEntryId(null);
   };
@@ -111,18 +97,18 @@ const List: React.FC = () => {
                   <div>
                     <IonButtons slot="end">
                       <IonButton onClick={() => setEditingEntryId(entry.id)}>
-                        <IonIcon icon={pencilSharp}></IonIcon>
+                        <IonIcon icon={pencilSharp} size={"large"}></IonIcon>
                       </IonButton>
                       <IonButton /*id="delete-entry-trigger"*/
                         onClick={() => setDeletingEntryId(entry.id)}
                       >
-                        <IonIcon icon={trash}></IonIcon>
+                        <IonIcon icon={trash} size={"large"}></IonIcon>
                       </IonButton>
                     </IonButtons>
                   </div>
                 ) : (
                   <IonText className={classes.time}>
-                    {formatDate(entry.createdAt)}
+                    {formatDisplayTime(entry.time)}
                   </IonText>
                 )}
               </div>
