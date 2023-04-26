@@ -87,19 +87,17 @@ const AddEntryModal = () => {
     setFormState({});
   }
 
-  useEffect(() => {
-    setFormState({
-      ...formState,
-      time: getCurrentLocalTimeISOString(),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <IonModal
       ref={modal}
       trigger="open-add-entry-modal"
       onWillDismiss={(ev) => onWillDismiss(ev)}
+      onWillPresent={() => {
+        setFormState({
+          ...formState,
+          time: getCurrentLocalTimeISOString(),
+        });
+      }}
     >
       <IonHeader>
         <IonToolbar color="primary">
