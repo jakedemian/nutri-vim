@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMemo } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { Entry } from "../common/types";
+import toast from "react-hot-toast";
 
 export const getFoodEntriesQueryKey = () => ["GET_FOOD_ENTRIES_QUERY_KEY"];
 export const getFoodEntriesStorageKey = () => "FOOD_ENTRIES";
@@ -52,6 +53,13 @@ export const useFoodEntries = () => {
     );
 
     await _updateFoodEntries(updatedEntries);
+    toast.success("Changes saved successfully!", {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
   };
 
   const addFoodEntry = async (entry: Entry) => {
@@ -59,6 +67,13 @@ export const useFoodEntries = () => {
     const newEntriesArray = [...currentEntries, entry];
 
     await _updateFoodEntries(newEntriesArray);
+    toast.success("Food logged successfully!", {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
   };
 
   const deleteFoodEntry = async (entryId: string) => {

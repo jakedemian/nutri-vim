@@ -33,6 +33,7 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 import "./index.css";
+import ContentWrapper from "./components/ContentWrapper";
 
 setupIonicReact();
 
@@ -42,15 +43,15 @@ const App: React.FC = () => (
       <IonTabs>
         <IonRouterOutlet>
           <Route exact path="/today">
-            <Today />
+            <ContentWrapper>
+              <Today />
+            </ContentWrapper>
           </Route>
           <Route exact path="/list">
-            <List />
+            <ContentWrapper>
+              <List />
+            </ContentWrapper>
           </Route>
-          {/* <Route path="/tab3">
-            <Tab3 />
-          </Route> */}
-
           <Route exact path="/">
             <Redirect to="/today" />
           </Route>
@@ -64,10 +65,6 @@ const App: React.FC = () => (
             <IonIcon aria-hidden="true" icon={listSharp} />
             <IonLabel>List</IonLabel>
           </IonTabButton>
-          {/* <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Tab 3</IonLabel>
-          </IonTabButton> */}
         </IonTabBar>
       </IonTabs>
     </IonReactRouter>
