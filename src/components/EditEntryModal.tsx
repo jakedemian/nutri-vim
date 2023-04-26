@@ -12,10 +12,10 @@ import {
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { arrowBack } from "ionicons/icons";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { useFoodEntries } from "../hooks/useFoodEntries";
-import { v4 } from "uuid";
+import { Entry } from "../common/types";
 
 const useStyles = createUseStyles({
   form: {
@@ -27,18 +27,41 @@ const useStyles = createUseStyles({
   },
 });
 
-type AddEntryFormData = {
+type EditEntryFormData = {
   name?: string;
   calories?: string;
 };
 
-const AddEntryModal = () => {
-  const classes = useStyles();
-  const modal = useRef<HTMLIonModalElement>(null);
-  const input = useRef<HTMLIonInputElement>(null);
+type EditEntryModalProps = {
+  entryId: string | null;
+  onDismiss: () => void;
+};
 
-  const [formState, setFormState] = useState<AddEntryFormData>({});
-  const { addFoodEntry } = useFoodEntries();
+const EditEntryModal: React.FC<EditEntryModalProps> = ({
+  entryId,
+  onDismiss,
+}) => {
+  const classes = useStyles();
+  const input = useRef<HTMLIonInputElement>(null);
+  const modal = useRef<HTMLIonModalElement>(null);
+
+  const [formState, setFormState] = useState<EditEntryFormData>({});
+  const [editingEntry, setEditingEntry] = useState<Entry | undefined>();
+  const { updateFoodEntry, foodEntries } = useFoodEntries();
+
+  useEffect(() => {
+    if (entryId && foodEntries && foodEntries.length > 0) {
+      const thisEntry: Entry = foodEntries.find(
+        (entry: Entry) => entry.id === entryId
+      );
+
+      setEditingEntry(thisEntry);
+      setFormState({
+        name: thisEntry.name,
+        calories: thisEntry.calories.toString(),
+      });
+    }
+  }, [foodEntries, entryId]);
 
   function confirm() {
     modal.current?.dismiss(input.current?.value, "confirm");
@@ -50,27 +73,29 @@ const AddEntryModal = () => {
 
   function onWillDismiss(ev: CustomEvent<OverlayEventDetail>) {
     if (ev.detail.role === "confirm") {
-      if (!formState.name || !formState.calories) {
+      if (!editingEntry || !formState.name || !formState.calories) {
         return;
       }
 
       // TODO need better validation around formState.calories being a number
-
-      addFoodEntry({
-        id: v4(),
+      const updatedEntry: Entry = {
+        id: editingEntry.id,
         name: formState.name,
         calories: Number(formState.calories),
-        createdAt: new Date().toString(),
-      });
+        createdAt: editingEntry.createdAt,
+      };
+
+      updateFoodEntry(updatedEntry);
     }
 
     setFormState({});
+    onDismiss();
   }
 
   return (
     <IonModal
       ref={modal}
-      trigger="open-add-entry-modal"
+      isOpen={!!entryId}
       onWillDismiss={(ev) => onWillDismiss(ev)}
     >
       <IonHeader>
@@ -80,7 +105,7 @@ const AddEntryModal = () => {
               <IonIcon icon={arrowBack}></IonIcon>
             </IonButton>
           </IonButtons>
-          <IonTitle>Add Food</IonTitle>
+          <IonTitle>Edit Food</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
@@ -95,10 +120,12 @@ const AddEntryModal = () => {
               onIonInput={(e) => {
                 const val = (e.target.value as string) || "";
 
-                setFormState({
-                  ...formState,
-                  name: val,
-                });
+                if (val) {
+                  setFormState({
+                    ...formState,
+                    name: val,
+                  });
+                }
               }}
             />
           </IonItem>
@@ -126,14 +153,15 @@ const AddEntryModal = () => {
           disabled={
             !formState.name ||
             !formState.calories ||
-            isNaN(Number(formState.calories))
+            isNaN(Number(formState.calories)) ||
+            Number(formState.calories) <= 0
           }
         >
-          Add
+          Save
         </IonButton>
       </IonContent>
     </IonModal>
   );
 };
 
-export default AddEntryModal;
+export default EditEntryModal;

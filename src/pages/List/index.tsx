@@ -12,11 +12,12 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { add, iceCreamSharp, pencilSharp, trash } from "ionicons/icons";
+import { iceCreamSharp, pencilSharp, trash } from "ionicons/icons";
 import { useState } from "react";
 import { createUseStyles } from "react-jss";
 import { useFoodEntries } from "../../hooks/useFoodEntries";
 import { Entry } from "../../common/types";
+import EditEntryModal from "../../components/EditEntryModal";
 
 const useStyles = createUseStyles({
   footer: {
@@ -65,9 +66,10 @@ const List: React.FC = () => {
   const classes = useStyles();
   const [selectedItem, setSelectedItem] = useState<number>(-1);
   const [deletingEntryId, setDeletingEntryId] = useState<string | null>(null);
+  const [editingEntryId, setEditingEntryId] = useState<string | null>(null);
   const { foodEntries, deleteFoodEntry, isLoading } = useFoodEntries();
 
-  function formatDate(dateString: string): string {
+  const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
 
     let hours: number = date.getHours();
@@ -80,7 +82,11 @@ const List: React.FC = () => {
       minutes < 10 ? "0" + minutes.toString() : minutes.toString();
 
     return `${hours}:${minutesString} ${ampm}`;
-  }
+  };
+
+  const onEditModalDismissed = () => {
+    setEditingEntryId(null);
+  };
 
   let content = <div>Loading</div>;
   if (isLoading) {
@@ -110,9 +116,7 @@ const List: React.FC = () => {
                 {selectedItem === index ? (
                   <div>
                     <IonButtons slot="end">
-                      <IonButton
-                        onClick={() => console.log(`edit ${entry.name}`)}
-                      >
+                      <IonButton onClick={() => setEditingEntryId(entry.id)}>
                         <IonIcon icon={pencilSharp}></IonIcon>
                       </IonButton>
                       <IonButton /*id="delete-entry-trigger"*/
@@ -137,28 +141,32 @@ const List: React.FC = () => {
         <IonText>That's all, folks!</IonText>
       </div>
       <IonAlert
-          header="Delete entry?"
-          message="Are you sure you want to delete this entry?  This can't be undone."
-          // trigger="delete-entry-trigger"
-          isOpen={!!deletingEntryId}
-          buttons={[
-            {
-              text: "Cancel",
-              role: "cancel",
-              handler: () => {
-                setDeletingEntryId(null);
-              }
+        header="Delete entry?"
+        message="Are you sure you want to delete this entry?  This can't be undone."
+        // trigger="delete-entry-trigger"
+        isOpen={!!deletingEntryId}
+        buttons={[
+          {
+            text: "Cancel",
+            role: "cancel",
+            handler: () => {
+              setDeletingEntryId(null);
             },
-            {
-              text: "OK",
-              role: "confirm",
-              handler: () => {
-                deleteFoodEntry(foodEntries[selectedItem].id);
-                setDeletingEntryId(null);
-              },
+          },
+          {
+            text: "OK",
+            role: "confirm",
+            handler: () => {
+              deleteFoodEntry(foodEntries[selectedItem].id);
+              setDeletingEntryId(null);
             },
-          ]}
-        ></IonAlert>      
+          },
+        ]}
+      ></IonAlert>
+      <EditEntryModal
+        entryId={editingEntryId}
+        onDismiss={onEditModalDismissed}
+      />
     </IonContent>
   );
 
