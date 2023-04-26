@@ -1,4 +1,5 @@
 import {
+  IonAlert,
   IonButton,
   IonButtons,
   IonCard,
@@ -63,6 +64,7 @@ const useStyles = createUseStyles({
 const List: React.FC = () => {
   const classes = useStyles();
   const [selectedItem, setSelectedItem] = useState<number>(-1);
+  const [deletingEntryId, setDeletingEntryId] = useState<string | null>(null);
   const { foodEntries, deleteFoodEntry, isLoading } = useFoodEntries();
 
   function formatDate(dateString: string): string {
@@ -113,11 +115,8 @@ const List: React.FC = () => {
                       >
                         <IonIcon icon={pencilSharp}></IonIcon>
                       </IonButton>
-                      <IonButton
-                        onClick={() => {
-                          // TODO Show an alert first!!!!
-                          deleteFoodEntry(entry.id);
-                        }}
+                      <IonButton /*id="delete-entry-trigger"*/
+                        onClick={() => setDeletingEntryId(entry.id)}
                       >
                         <IonIcon icon={trash}></IonIcon>
                       </IonButton>
@@ -137,6 +136,29 @@ const List: React.FC = () => {
         <IonIcon icon={iceCreamSharp} style={{ fontSize: 24 }} />
         <IonText>That's all, folks!</IonText>
       </div>
+      <IonAlert
+          header="Delete entry?"
+          message="Are you sure you want to delete this entry?  This can't be undone."
+          // trigger="delete-entry-trigger"
+          isOpen={!!deletingEntryId}
+          buttons={[
+            {
+              text: "Cancel",
+              role: "cancel",
+              handler: () => {
+                setDeletingEntryId(null);
+              }
+            },
+            {
+              text: "OK",
+              role: "confirm",
+              handler: () => {
+                deleteFoodEntry(foodEntries[selectedItem].id);
+                setDeletingEntryId(null);
+              },
+            },
+          ]}
+        ></IonAlert>      
     </IonContent>
   );
 
@@ -148,12 +170,12 @@ const List: React.FC = () => {
           <IonButtons slot="end">
             {/* TODO wrap IonRouterOutlet in App.tsx in another component
              that handles the alert and modal stuff, as well as this header */}
-            <IonButton id="reset-calories-trigger">
+            {/* <IonButton id="reset-calories-trigger">
               <IonIcon icon={trash}></IonIcon>
             </IonButton>
             <IonButton id="open-add-entry-modal">
               <IonIcon icon={add}></IonIcon>
-            </IonButton>
+            </IonButton> */}
           </IonButtons>
         </IonToolbar>
       </IonHeader>

@@ -7,6 +7,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    userSelect: "none"
   },
   calorieDisplay: {
     color: "white",
