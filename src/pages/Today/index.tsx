@@ -1,5 +1,7 @@
-import CalorieDisplay from "./CalorieDisplay";
+import React from "react";
 import { createUseStyles } from "react-jss";
+
+import CalorieDisplay from "src/pages/Today/CalorieDisplay";
 
 const useStyles = createUseStyles({
   pageContent: {

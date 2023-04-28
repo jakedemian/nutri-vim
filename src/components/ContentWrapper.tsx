@@ -1,3 +1,4 @@
+import React from "react";
 import {
   IonAlert,
   IonButton,
@@ -10,11 +11,11 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { add, trash } from "ionicons/icons";
-import React from "react";
 import { Toaster } from "react-hot-toast";
-import AddEntryModal from "./AddEntryModal";
-import { useFoodEntries } from "../hooks/useFoodEntries";
 import { createUseStyles } from "react-jss";
+
+import AddEntryModal from "src/components/AddEntryModal";
+import { useFoodEntries } from "src/hooks/useFoodEntries";
 
 const useStyles = createUseStyles({
   title: {

@@ -1,8 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMemo } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { Entry } from "../common/types";
 import toast from "react-hot-toast";
+
+import { Entry } from "src/common/types";
 
 export const getFoodEntriesQueryKey = () => ["GET_FOOD_ENTRIES_QUERY_KEY"];
 export const getFoodEntriesStorageKey = () => "FOOD_ENTRIES";

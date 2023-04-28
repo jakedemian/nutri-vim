@@ -1,3 +1,4 @@
+import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import {
   IonApp,
@@ -11,8 +12,11 @@ import {
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { listSharp, todaySharp } from "ionicons/icons";
-import Today from "./pages/Today";
-import List from "./pages/List";
+import { createUseStyles } from "react-jss";
+
+import Today from "src/pages/Today";
+import List from "src/pages/List";
+import ContentWrapper from "src/components/ContentWrapper";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -31,10 +35,8 @@ import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 
 /* Theme variables */
-import "./theme/variables.css";
-import "./index.css";
-import ContentWrapper from "./components/ContentWrapper";
-import { createUseStyles } from "react-jss";
+import "src/theme/variables.css";
+import "src/index.css";
 
 setupIonicReact();
 

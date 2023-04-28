@@ -17,10 +17,11 @@ import {
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { arrowBack } from "ionicons/icons";
 import { createUseStyles } from "react-jss";
-import { useFoodEntries } from "../hooks/useFoodEntries";
 import { v4 } from "uuid";
-import { formatDisplayTime } from "../util/formatDisplayTime";
-import { getCurrentLocalTimeISOString } from "../util/getCurrentLocalTimeISOString";
+
+import { useFoodEntries } from "src/hooks/useFoodEntries";
+import { formatDisplayTime } from "src/util/formatDisplayTime";
+import { getCurrentLocalTimeISOString } from "src/util/getCurrentLocalTimeISOString";
 
 const useStyles = createUseStyles({
   form: {

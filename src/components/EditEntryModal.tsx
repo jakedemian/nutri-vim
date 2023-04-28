@@ -1,3 +1,4 @@
+import React, { useEffect, useRef, useState } from "react";
 import {
   IonButton,
   IonButtons,
@@ -15,11 +16,11 @@ import {
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import { arrowBack } from "ionicons/icons";
-import React, { useEffect, useRef, useState } from "react";
 import { createUseStyles } from "react-jss";
-import { useFoodEntries } from "../hooks/useFoodEntries";
-import { Entry } from "../common/types";
-import { formatDisplayTime } from "../util/formatDisplayTime";
+
+import { useFoodEntries } from "src/hooks/useFoodEntries";
+import { Entry } from "src/common/types";
+import { formatDisplayTime } from "src/util/formatDisplayTime";
 
 const useStyles = createUseStyles({
   form: {

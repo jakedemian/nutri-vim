@@ -1,13 +1,15 @@
+import React from "react";
 import { IonText } from "@ionic/react";
 import { createUseStyles } from "react-jss";
-import { useFoodEntries } from "../../hooks/useFoodEntries";
+
+import { useFoodEntries } from "src/hooks/useFoodEntries";
 
 const useStyles = createUseStyles({
   container: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    userSelect: "none"
+    userSelect: "none",
   },
   calorieDisplay: {
     color: "white",

@@ -1,3 +1,4 @@
+import React from "react";
 import {
   IonAlert,
   IonButton,
@@ -10,10 +11,11 @@ import {
 import { iceCreamSharp, pencilSharp, trash } from "ionicons/icons";
 import { useState } from "react";
 import { createUseStyles } from "react-jss";
-import { useFoodEntries } from "../../hooks/useFoodEntries";
-import { Entry } from "../../common/types";
-import EditEntryModal from "../../components/EditEntryModal";
-import { formatDisplayTime } from "../../util/formatDisplayTime";
+
+import { useFoodEntries } from "src/hooks/useFoodEntries";
+import { Entry } from "src/common/types";
+import EditEntryModal from "src/components/EditEntryModal";
+import { formatDisplayTime } from "src/util/formatDisplayTime";
 
 const useStyles = createUseStyles({
   footer: {
@@ -118,12 +120,11 @@ const List: React.FC = () => {
       ))}
       <div className={classes.footer}>
         <IonIcon icon={iceCreamSharp} style={{ fontSize: 24 }} />
-        <IonText>That's all, folks!</IonText>
+        <IonText>That&apos;s all, folks!</IonText>
       </div>
       <IonAlert
         header="Delete entry?"
         message="Are you sure you want to delete this entry?  This can't be undone."
-        // trigger="delete-entry-trigger"
         isOpen={!!deletingEntryId}
         buttons={[
           {
