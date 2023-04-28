@@ -14,9 +14,13 @@ export const useFoodEntries = () => {
   const _fetchFoodEntries = async () => {
     try {
       const stringJson = await AsyncStorage.getItem(getFoodEntriesStorageKey());
-      return stringJson ? JSON.parse(stringJson) : [];
-
-      // TODO sort the results by createdAt
+      return stringJson
+        ? JSON.parse(stringJson).sort(
+            (a: Entry, b: Entry) =>
+              // ascending order
+              new Date(a.time).getTime() - new Date(b.time).getTime()
+          )
+        : [];
     } catch (error) {
       console.error("Error fetching data from AsyncStorage:", error);
       throw error;
