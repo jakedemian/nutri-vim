@@ -1,41 +1,16 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMemo } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
 
 import { Entry } from "src/common/types";
+import { entryRepo } from "src/common/repositories";
 
 export const getFoodEntriesQueryKey = () => ["GET_FOOD_ENTRIES_QUERY_KEY"];
-export const getFoodEntriesStorageKey = () => "FOOD_ENTRIES";
 
 export const useFoodEntries = () => {
   const queryClient = useQueryClient();
 
-  const _fetchFoodEntries = async () => {
-    try {
-      const stringJson = await AsyncStorage.getItem(getFoodEntriesStorageKey());
-      return stringJson
-        ? JSON.parse(stringJson).sort(
-            (a: Entry, b: Entry) =>
-              // ascending order
-              new Date(a.time).getTime() - new Date(b.time).getTime()
-          )
-        : [];
-    } catch (error) {
-      console.error("Error fetching data from AsyncStorage:", error);
-      throw error;
-    }
-  };
-
-  const _updateFoodEntries = async (entries: Entry[]) => {
-    await AsyncStorage.setItem(
-      getFoodEntriesStorageKey(),
-      JSON.stringify(entries)
-    );
-    queryClient.setQueryData(getFoodEntriesQueryKey(), entries);
-  };
-
-  const query = useQuery(getFoodEntriesQueryKey(), _fetchFoodEntries, {
+  const query = useQuery(getFoodEntriesQueryKey(), () => entryRepo.getAll(), {
     retry: false,
     refetchOnWindowFocus: true,
   });
@@ -51,13 +26,10 @@ export const useFoodEntries = () => {
     );
   }, [query.data]);
 
-  const updateFoodEntry = async (newEntry: Entry) => {
-    const currentEntries = query.data || [];
-    const updatedEntries = currentEntries.map((entry: Entry) =>
-      entry.id === newEntry.id ? newEntry : entry
-    );
+  const updateFoodEntry = async (entry: Entry) => {
+    await entryRepo.update(entry);
+    queryClient.invalidateQueries(getFoodEntriesQueryKey());
 
-    await _updateFoodEntries(updatedEntries);
     toast.success("Changes saved successfully!", {
       style: {
         borderRadius: "10px",
@@ -68,10 +40,9 @@ export const useFoodEntries = () => {
   };
 
   const addFoodEntry = async (entry: Entry) => {
-    const currentEntries = query.data || [];
-    const newEntriesArray = [...currentEntries, entry];
+    await entryRepo.add(entry);
+    queryClient.invalidateQueries(getFoodEntriesQueryKey());
 
-    await _updateFoodEntries(newEntriesArray);
     toast.success("Food logged successfully!", {
       style: {
         borderRadius: "10px",
@@ -82,16 +53,13 @@ export const useFoodEntries = () => {
   };
 
   const deleteFoodEntry = async (entryId: string) => {
-    const currentEntries = query.data || [];
-    const updatedEntries = currentEntries.filter(
-      (entry: Entry) => entry.id !== entryId
-    );
-
-    await _updateFoodEntries(updatedEntries);
+    await entryRepo.delete(entryId);
+    queryClient.invalidateQueries(getFoodEntriesQueryKey());
   };
 
   const clearFoodEntries = async () => {
-    await _updateFoodEntries([]);
+    await entryRepo.updateAll([]);
+    queryClient.invalidateQueries(getFoodEntriesQueryKey());
   };
 
   return {

@@ -70,9 +70,14 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
 
   useEffect(() => {
     if (entryId && foodEntries && foodEntries.length > 0) {
-      const thisEntry: Entry = foodEntries.find(
+      const thisEntry: Entry | undefined = foodEntries.find(
         (entry: Entry) => entry.id === entryId
       );
+
+      if (!thisEntry) {
+        console.error("Entry id didn't match any entries.");
+        return;
+      }
 
       setEditingEntry(thisEntry);
       setFormState({
