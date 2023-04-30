@@ -1,11 +1,11 @@
-import { useMemo } from "react";
-import { useQuery, useQueryClient } from "react-query";
-import toast from "react-hot-toast";
+import { useMemo } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
+// import toast from "react-hot-toast";
 
-import { Entry } from "src/common/types";
-import { entryRepo } from "src/common/repositories";
+import { Entry } from 'src/common/types';
+import { entryRepo } from 'src/common/repositories';
 
-export const getFoodEntriesQueryKey = () => ["GET_FOOD_ENTRIES_QUERY_KEY"];
+export const getFoodEntriesQueryKey = () => ['GET_FOOD_ENTRIES_QUERY_KEY'];
 
 export const useFoodEntries = () => {
   const queryClient = useQueryClient();
@@ -30,26 +30,26 @@ export const useFoodEntries = () => {
     await entryRepo.update(entry);
     queryClient.invalidateQueries(getFoodEntriesQueryKey());
 
-    toast.success("Changes saved successfully!", {
-      style: {
-        borderRadius: "10px",
-        background: "#333",
-        color: "#fff",
-      },
-    });
+    // toast.success('Changes saved successfully!', {
+    //   style: {
+    //     borderRadius: '10px',
+    //     background: '#333',
+    //     color: '#fff',
+    //   },
+    // });
   };
 
   const addFoodEntry = async (entry: Entry) => {
     await entryRepo.add(entry);
     queryClient.invalidateQueries(getFoodEntriesQueryKey());
 
-    toast.success("Food logged successfully!", {
-      style: {
-        borderRadius: "10px",
-        background: "#333",
-        color: "#fff",
-      },
-    });
+    // toast.success('Food logged successfully!', {
+    //   style: {
+    //     borderRadius: '10px',
+    //     background: '#333',
+    //     color: '#fff',
+    //   },
+    // });
   };
 
   const deleteFoodEntry = async (entryId: string) => {

@@ -1,9 +1,9 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Entry } from "src/common/types";
-import { EntryRepositoryInterface } from "src/data/interfaces/entry-repository.interface";
+import { Entry } from 'src/common/types';
+import { EntryRepositoryInterface } from 'src/data/interfaces/entry-repository.interface';
 
-export const getFoodEntriesStorageKey = () => "FOOD_ENTRIES";
+export const getFoodEntriesStorageKey = () => 'FOOD_ENTRIES';
 
 export class EntryRepository implements EntryRepositoryInterface {
   async getAll() {
@@ -17,7 +17,7 @@ export class EntryRepository implements EntryRepositoryInterface {
           )
         : [];
     } catch (error) {
-      console.error("Error fetching all entries:", error);
+      console.error('Error fetching all entries:', error);
       throw error;
     }
   }
@@ -29,7 +29,7 @@ export class EntryRepository implements EntryRepositoryInterface {
         JSON.stringify(entries)
       );
     } catch (error) {
-      console.error("Error updating all entries:", error);
+      console.error('Error updating all entries:', error);
       throw error;
     }
   }
@@ -39,7 +39,7 @@ export class EntryRepository implements EntryRepositoryInterface {
       const allEntries: Entry[] = await this.getAll();
       await this.updateAll([...allEntries, entry]);
     } catch (error) {
-      console.error("Error adding entry:", error);
+      console.error('Error adding entry:', error);
       throw error;
     }
   }
@@ -53,7 +53,7 @@ export class EntryRepository implements EntryRepositoryInterface {
         )
       );
     } catch (error) {
-      console.error("Error updating entry:", error);
+      console.error('Error updating entry:', error);
       throw error;
     }
   }
@@ -65,7 +65,7 @@ export class EntryRepository implements EntryRepositoryInterface {
         allEntries.filter((entry: Entry) => entry.id !== entryId)
       );
     } catch (error) {
-      console.error("Error deleting entry:", error);
+      console.error('Error deleting entry:', error);
       throw error;
     }
   }
