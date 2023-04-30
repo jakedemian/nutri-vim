@@ -1,4 +1,3 @@
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import React, { useEffect, useState } from 'react';
 import {
   Button,
@@ -7,7 +6,12 @@ import {
   Text,
   TextInput,
   View,
+  Platform,
+  TouchableOpacity,
 } from 'react-native';
+import DateTimePicker, {
+  DateTimePickerAndroid,
+} from '@react-native-community/datetimepicker';
 
 import NutrivimModal from 'src/common/NutrivimModal';
 import { Entry } from 'src/common/types';
@@ -68,7 +72,7 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
 
     updateFoodEntry(updatedEntry);
 
-    setFormState({});
+    setFormState(getDefaultFormState());
     hide();
   };
 
@@ -96,10 +100,10 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
     <NutrivimModal
       visible={!!editingEntryId}
       hide={hide}
-      title={'Add Entry'}
+      title={'Edit ENtry'}
       // onShow={onShow}
     >
-      <SafeAreaView>
+      <SafeAreaView style={{ width: '100%' }}>
         <TextInput
           style={styles.editEntryModalInput}
           onChangeText={name =>
@@ -123,30 +127,55 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
           placeholder="How many calories?"
           keyboardType="numeric"
         />
-        <View style={{ display: 'flex' }}>
-          <Text>{formatDisplayTime(formState.time as string)}</Text>
-          <Button
-            title="Change"
-            onPress={() =>
-              DateTimePickerAndroid.open({
-                value: new Date(formState.time as string),
-                onChange: (e, value) => {
-                  if (value) {
-                    setFormState({
-                      ...formState,
-                      time: getLocalTimeStringFromDate(value),
-                    });
-                  } else {
-                    console.error(
-                      'DateTimePickerAndroid onChange value was falsy'
-                    );
-                  }
-                },
-                mode: 'time',
-                is24Hour: false,
-              })
-            }
-          />
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          {Platform.OS === 'ios' && (
+            <DateTimePicker
+              value={new Date(formState.time as string)}
+              mode={'time'}
+              is24Hour={false}
+              onChange={(event, value) =>
+                setFormState({
+                  ...formState,
+                  time: getLocalTimeStringFromDate(value as Date),
+                })
+              }
+            />
+          )}
+          {Platform.OS === 'android' && (
+            <>
+              <Text>{formatDisplayTime(formState.time as string)}</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  DateTimePickerAndroid.open({
+                    value: new Date(formState.time as string),
+                    onChange: (e, value) => {
+                      if (value) {
+                        setFormState({
+                          ...formState,
+                          time: getLocalTimeStringFromDate(value),
+                        });
+                      } else {
+                        console.error(
+                          'DateTimePickerAndroid onChange value was falsy'
+                        );
+                      }
+                    },
+                    mode: 'time',
+                    is24Hour: false,
+                  })
+                }
+              >
+                <Text style={{ color: '#2196f3' }}>Change</Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
       </SafeAreaView>
       <Button

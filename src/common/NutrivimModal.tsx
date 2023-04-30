@@ -14,6 +14,7 @@ type NutrivimModalProps = {
   visible: boolean;
   title: string;
   onShow?: () => void;
+  width?: number;
 };
 
 const NutrivimModal: React.FC<NutrivimModalProps> = ({
@@ -22,6 +23,7 @@ const NutrivimModal: React.FC<NutrivimModalProps> = ({
   visible,
   title,
   onShow,
+  width = 256,
 }) => {
   return (
     <Modal
@@ -37,7 +39,7 @@ const NutrivimModal: React.FC<NutrivimModalProps> = ({
         onPressOut={() => hide()}
       >
         <TouchableWithoutFeedback>
-          <View style={styles.modalView}>
+          <View style={{ ...styles.modalView, width: width }}>
             <Text>{title}</Text>
             {children}
           </View>

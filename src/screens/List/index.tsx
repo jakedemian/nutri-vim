@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 36,
-    overflowX: 'auto',
-    whiteSpace: 'nowrap',
+    // overflowX: 'auto',
+    // whiteSpace: 'nowrap',
     color: 'white',
   },
 });

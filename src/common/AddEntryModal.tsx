@@ -1,4 +1,3 @@
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
 import {
   Button,
@@ -8,8 +7,12 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Platform,
 } from 'react-native';
 import uuid from 'react-native-uuid';
+import DateTimePicker, {
+  DateTimePickerAndroid,
+} from '@react-native-community/datetimepicker';
 
 import NutrivimModal from 'src/common/NutrivimModal';
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
@@ -72,7 +75,7 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
     >
       <SafeAreaView>
         <TextInput
-          style={styles.input}
+          style={styles.editEntryModalInput}
           onChangeText={name =>
             setFormState({
               ...formState,
@@ -83,7 +86,7 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
           placeholder="What did you eat?"
         />
         <TextInput
-          style={styles.input}
+          style={styles.editEntryModalInput}
           onChangeText={calories =>
             setFormState({
               ...formState,
@@ -102,30 +105,47 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
             alignItems: 'center',
           }}
         >
-          <Text>{formatDisplayTime(formState.time)}</Text>
-          <TouchableOpacity
-            onPress={() =>
-              DateTimePickerAndroid.open({
-                value: new Date(formState.time),
-                onChange: (e, value) => {
-                  if (value) {
-                    setFormState({
-                      ...formState,
-                      time: getLocalTimeStringFromDate(value),
-                    });
-                  } else {
-                    console.error(
-                      'DateTimePickerAndroid onChange value was falsy'
-                    );
-                  }
-                },
-                mode: 'time',
-                is24Hour: false,
-              })
-            }
-          >
-            <Text style={{ color: '#2196f3' }}>Change</Text>
-          </TouchableOpacity>
+          {Platform.OS === 'ios' && (
+            <DateTimePicker
+              value={new Date(formState.time)}
+              mode={'time'}
+              is24Hour={false}
+              onChange={(event, value) =>
+                setFormState({
+                  ...formState,
+                  time: getLocalTimeStringFromDate(value as Date),
+                })
+              }
+            />
+          )}
+          {Platform.OS === 'android' && (
+            <>
+              <Text>{formatDisplayTime(formState.time)}</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  DateTimePickerAndroid.open({
+                    value: new Date(formState.time),
+                    onChange: (e, value) => {
+                      if (value) {
+                        setFormState({
+                          ...formState,
+                          time: getLocalTimeStringFromDate(value),
+                        });
+                      } else {
+                        console.error(
+                          'DateTimePickerAndroid onChange value was falsy'
+                        );
+                      }
+                    },
+                    mode: 'time',
+                    is24Hour: false,
+                  })
+                }
+              >
+                <Text style={{ color: '#2196f3' }}>Change</Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
       </SafeAreaView>
       <View style={{ marginTop: 16, alignSelf: 'stretch' }}>
@@ -139,12 +159,25 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
           }
         />
       </View>
+      {/* {Platform.OS === 'ios' && showTimerPicker && (
+        <DateTimePicker
+          value={new Date(formState.time)}
+          mode={'time'}
+          is24Hour={false}
+          onChange={(event, value) =>
+            setFormState({
+              ...formState,
+              time: getLocalTimeStringFromDate(value as Date),
+            })
+          }
+        />
+      )} */}
     </NutrivimModal>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {
+  editEntryModalInput: {
     height: 40,
     margin: 12,
     borderWidth: 1,
