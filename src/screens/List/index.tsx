@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import { View } from 'react-native';
 
@@ -35,7 +36,7 @@ const List: React.FC = () => {
   }
 
   return (
-    <View style={styles.pageContent}>
+    <ScrollView style={styles.pageContent}>
       {foodEntries.map((entry: Entry, index: number) => (
         <View
           key={index}
@@ -45,7 +46,6 @@ const List: React.FC = () => {
         >
           <View style={styles.card}>
             <TouchableOpacity
-              style={styles.cardLeftContent}
               onPress={() =>
                 selectedItem === index
                   ? setSelectedItem(-1)
@@ -56,7 +56,7 @@ const List: React.FC = () => {
               <Text style={styles.foodName}>{entry.name}</Text>
               <Text style={styles.calories}>{entry.calories} calories</Text>
             </TouchableOpacity>
-            <View style={styles.cardRightContent}>
+            <View>
               {selectedItem === index ? (
                 <View style={styles.horizontalButtonPair}>
                   <Pressable
@@ -103,7 +103,7 @@ const List: React.FC = () => {
           <Button title="Go Back" onPress={() => hideDeletingEntryModal()} />
         </View>
       </NutrivimModal>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 24,
+    marginBottom: 36,
   },
   card: {
     display: 'flex',
@@ -127,18 +128,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     color: 'white',
     padding: 16,
-  },
-  cardLeftContent: {
-    // display: 'flex',
-    // flexDirection: 'column',
-    // alignItems: 'flex-start',
-    // width: '100%',
-  },
-  cardRightContent: {
-    // display: 'flex',
-    // flexDirection: 'column',
-    // alignItems: 'flex-end',
-    // justifyContent: 'center',
   },
   horizontalButtonPair: {
     display: 'flex',
@@ -158,8 +147,6 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 36,
-    // overflowX: 'auto',
-    // whiteSpace: 'nowrap',
     color: 'white',
   },
   listItemButton: {

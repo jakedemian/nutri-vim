@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-// import toast from "react-hot-toast";
+import Toast from 'react-native-toast-message';
 
 import { Entry } from 'src/common/types';
 import { entryRepo } from 'src/common/repositories';
@@ -30,36 +30,45 @@ export const useFoodEntries = () => {
     await entryRepo.update(entry);
     queryClient.invalidateQueries(getFoodEntriesQueryKey());
 
-    // toast.success('Changes saved successfully!', {
-    //   style: {
-    //     borderRadius: '10px',
-    //     background: '#333',
-    //     color: '#fff',
-    //   },
-    // });
+    Toast.show({
+      type: 'success',
+      text1: 'Success',
+      text2: 'Changes saved successfully',
+    });
   };
 
   const addFoodEntry = async (entry: Entry) => {
     await entryRepo.add(entry);
     queryClient.invalidateQueries(getFoodEntriesQueryKey());
 
-    // toast.success('Food logged successfully!', {
-    //   style: {
-    //     borderRadius: '10px',
-    //     background: '#333',
-    //     color: '#fff',
-    //   },
-    // });
+    Toast.show({
+      type: 'success',
+      text1: 'Success',
+      text2: 'Got it!',
+    });
   };
 
   const deleteFoodEntry = async (entryId: string) => {
     await entryRepo.delete(entryId);
     queryClient.invalidateQueries(getFoodEntriesQueryKey());
+
+    Toast.show({
+      type: 'success',
+      text1: 'Success',
+      text2: 'Entry was deleted',
+    });
   };
 
   const clearFoodEntries = async () => {
+    console.log('here');
     await entryRepo.updateAll([]);
     queryClient.invalidateQueries(getFoodEntriesQueryKey());
+
+    Toast.show({
+      type: 'success',
+      text1: 'Success',
+      text2: 'All entries deleted',
+    });
   };
 
   return {
