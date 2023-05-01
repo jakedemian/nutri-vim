@@ -1,14 +1,21 @@
 import React from 'react';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import { View } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
 import { Entry } from 'src/common/types';
 import { formatDisplayTime } from 'src/util/formatDisplayTime';
 import NutrivimModal from 'src/common/NutrivimModal';
 import EditEntryModal from 'src/common/EditEntryModal';
+import RotatingIcon from 'src/common/RotatingIcon';
+import { PRIMARY } from 'src/theme/theme';
 
 const List: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<number>(-1);
@@ -52,14 +59,18 @@ const List: React.FC = () => {
             <View style={styles.cardRightContent}>
               {selectedItem === index ? (
                 <View style={styles.horizontalButtonPair}>
-                  <Button
-                    title="edit"
+                  <Pressable
                     onPress={() => setEditingEntryId(entry.id)}
-                  />
-                  <Button
-                    title="delete" /*id="delete-entry-trigger"*/
+                    style={styles.listItemButton}
+                  >
+                    <Text style={styles.listItemButtonText}>edit</Text>
+                  </Pressable>
+                  <Pressable
                     onPress={() => setDeletingEntryId(entry.id)}
-                  />
+                    style={styles.listItemButton}
+                  >
+                    <Text style={styles.listItemButtonText}>delete</Text>
+                  </Pressable>
                 </View>
               ) : (
                 <Text style={styles.time}>{formatDisplayTime(entry.time)}</Text>
@@ -69,7 +80,7 @@ const List: React.FC = () => {
         </View>
       ))}
       <View style={styles.footer}>
-        <Ionicons name={'trash'} size={24} color={'white'} />
+        <RotatingIcon />
         <Text style={{ color: 'white' }}>That&apos;s all, folks!</Text>
       </View>
 
@@ -150,6 +161,13 @@ const styles = StyleSheet.create({
     // overflowX: 'auto',
     // whiteSpace: 'nowrap',
     color: 'white',
+  },
+  listItemButton: {
+    padding: 12,
+    backgroundColor: 'white',
+  },
+  listItemButtonText: {
+    color: PRIMARY,
   },
 });
 

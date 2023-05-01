@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Today from 'src/screens/Today';
 import { ModalContext } from 'src/context/ModalContext';
 import List from 'src/screens/List';
+import { PRIMARY } from 'src/theme/theme';
 
 const Tab = createBottomTabNavigator();
 
@@ -53,7 +54,7 @@ const RootNavigator: React.FC = () => {
 
         tabBarActiveBackgroundColor: '#444',
         tabBarInactiveBackgroundColor: '#333',
-        tabBarActiveTintColor: '#5260ff',
+        tabBarActiveTintColor: PRIMARY,
         tabBarInactiveTintColor: 'gray',
       })}
     >

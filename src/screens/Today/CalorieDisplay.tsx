@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     paddingBottom: 0,
     lineHeight: 128,
+    textAlign: 'center',
   },
   caloriesLabel: {
     color: 'white',
