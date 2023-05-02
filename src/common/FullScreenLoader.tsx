@@ -6,15 +6,20 @@ import Loading from 'src/common/Loading';
 const FullScreenLoader: React.FC = () => {
   return (
     <View style={styles.container} testID="loader">
-      <Loading />
+      <View style={styles.flex}>
+        <Loading />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#111',
+    height: '100%',
+  },
+  flex: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -59,7 +59,7 @@ const RootNavigator: React.FC = () => {
       })}
     >
       <Tab.Screen name="Today" component={Today} />
-      <Tab.Screen name="List" component={List /* List */} />
+      <Tab.Screen name="List" component={List} />
     </Tab.Navigator>
   );
 };

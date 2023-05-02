@@ -17,6 +17,7 @@ import NutrivimModal from 'src/common/NutrivimModal';
 import EditEntryModal from 'src/common/EditEntryModal';
 import RotatingIcon from 'src/common/RotatingIcon';
 import { PRIMARY } from 'src/theme/theme';
+import FullScreenLoader from 'src/common/FullScreenLoader';
 
 const List: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<number>(-1);
@@ -32,7 +33,11 @@ const List: React.FC = () => {
   };
 
   if (isLoading) {
-    return <View>Loading</View>;
+    return (
+      <View>
+        <FullScreenLoader />
+      </View>
+    );
   }
 
   return (
