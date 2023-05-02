@@ -60,7 +60,6 @@ export const useFoodEntries = () => {
   };
 
   const clearFoodEntries = async () => {
-    console.log('here');
     await entryRepo.updateAll([]);
     queryClient.invalidateQueries(getFoodEntriesQueryKey());
 
