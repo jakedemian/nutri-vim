@@ -1,14 +1,6 @@
-import React from 'react';
-import { useState } from 'react';
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Pressable,
-  ScrollView,
-} from 'react-native';
-import { View } from 'react-native';
+import React, { useState } from 'react';
+import { Button, Text, Pressable, ScrollView, View } from 'react-native';
+import styled from 'styled-components/native';
 
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
 import { Entry } from 'src/common/types';
@@ -16,7 +8,6 @@ import { formatDisplayTime } from 'src/util/formatDisplayTime';
 import NutrivimModal from 'src/common/NutrivimModal';
 import EditEntryModal from 'src/common/EditEntryModal';
 import RotatingIcon from 'src/common/RotatingIcon';
-import { PRIMARY } from 'src/theme/theme';
 import FullScreenLoader from 'src/common/FullScreenLoader';
 
 const List: React.FC = () => {
@@ -34,23 +25,18 @@ const List: React.FC = () => {
 
   if (isLoading) {
     return (
-      <View>
+      <FullScreenLoaderContainer>
         <FullScreenLoader />
-      </View>
+      </FullScreenLoaderContainer>
     );
   }
 
   return (
-    <ScrollView style={styles.pageContent}>
+    <ScrollView style={{ backgroundColor: '#111', height: '100%' }}>
       {foodEntries.map((entry: Entry, index: number) => (
-        <View
-          key={index}
-          style={{
-            backgroundColor: selectedItem === index ? '#5260ff' : 'transparent',
-          }}
-        >
-          <View style={styles.card}>
-            <TouchableOpacity
+        <SelectedItem key={index} isSelected={selectedItem === index}>
+          <Card>
+            <PressableArea
               onPress={() =>
                 selectedItem === index
                   ? setSelectedItem(-1)
@@ -58,36 +44,36 @@ const List: React.FC = () => {
               }
               activeOpacity={1}
             >
-              <Text style={styles.foodName}>{entry.name}</Text>
-              <Text style={styles.calories}>{entry.calories} calories</Text>
-            </TouchableOpacity>
+              <FoodName>{entry.name}</FoodName>
+              <Calories>{entry.calories} calories</Calories>
+            </PressableArea>
             <View>
               {selectedItem === index ? (
-                <View style={styles.horizontalButtonPair}>
+                <HorizontalButtonPair>
                   <Pressable
                     onPress={() => setEditingEntryId(entry.id)}
-                    style={styles.listItemButton}
+                    style={{ padding: 12, backgroundColor: 'white' }}
                   >
-                    <Text style={styles.listItemButtonText}>edit</Text>
+                    <ButtonText>edit</ButtonText>
                   </Pressable>
                   <Pressable
                     onPress={() => setDeletingEntryId(entry.id)}
-                    style={styles.listItemButton}
+                    style={{ padding: 12, backgroundColor: 'white' }}
                   >
-                    <Text style={styles.listItemButtonText}>delete</Text>
+                    <ButtonText>delete</ButtonText>
                   </Pressable>
-                </View>
+                </HorizontalButtonPair>
               ) : (
-                <Text style={styles.time}>{formatDisplayTime(entry.time)}</Text>
+                <Time>{formatDisplayTime(entry.time)}</Time>
               )}
             </View>
-          </View>
-        </View>
+          </Card>
+        </SelectedItem>
       ))}
-      <View style={styles.footer}>
+      <Footer>
         <RotatingIcon />
         <Text style={{ color: 'white' }}>That&apos;s all, folks!</Text>
-      </View>
+      </Footer>
 
       {/* MODALS */}
       <EditEntryModal hide={hideEditModal} editingEntryId={editingEntryId} />
@@ -97,7 +83,7 @@ const List: React.FC = () => {
         title="Delete entry?"
       >
         <Text>Are you sure you want to delete this entry?</Text>
-        <View style={styles.horizontalButtonPair}>
+        <HorizontalButtonPair>
           <Button
             title="Delete"
             onPress={() => {
@@ -106,61 +92,72 @@ const List: React.FC = () => {
             }}
           />
           <Button title="Go Back" onPress={() => hideDeletingEntryModal()} />
-        </View>
+        </HorizontalButtonPair>
       </NutrivimModal>
     </ScrollView>
   );
 };
 
-const styles = StyleSheet.create({
-  pageContent: {
-    backgroundColor: '#111',
-    height: '100%',
-  },
-  footer: {
-    color: 'white',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 24,
-    marginBottom: 36,
-  },
-  card: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    color: 'white',
-    padding: 16,
-  },
-  horizontalButtonPair: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    gap: 16,
-  },
-  foodName: {
-    color: 'white',
-    fontSize: 36,
-  },
-  calories: {
-    fontSize: 24,
-    fontStyle: 'italic',
-    color: '#ddd',
-  },
-  time: {
-    fontSize: 36,
-    color: 'white',
-  },
-  listItemButton: {
-    padding: 12,
-    backgroundColor: 'white',
-  },
-  listItemButtonText: {
-    color: PRIMARY,
-  },
-});
+const FullScreenLoaderContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SelectedItem = styled.View<{ isSelected: boolean }>`
+  background-color: ${({ isSelected, theme }) =>
+    isSelected ? theme.colors.primary : 'transparent'};
+`;
+
+const Card = styled.View`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  color: white;
+  padding: 16px;
+`;
+
+const PressableArea = styled.TouchableOpacity`
+  flex-direction: column;
+`;
+
+const FoodName = styled.Text`
+  color: white;
+  font-size: 36px;
+`;
+
+const Calories = styled.Text`
+  font-size: 24px;
+  font-style: italic;
+  color: #ddd;
+`;
+
+const Time = styled.Text`
+  font-size: 36px;
+  color: white;
+`;
+
+const HorizontalButtonPair = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+`;
+
+const ButtonText = styled.Text`
+  color: ${props => props.theme.colors.primary};
+`;
+
+const Footer = styled.View`
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+  margin-bottom: 36px;
+`;
 
 export default List;

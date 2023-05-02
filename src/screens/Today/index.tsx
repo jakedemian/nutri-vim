@@ -1,26 +1,24 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import styled from 'styled-components/native';
 
 import CalorieDisplay from 'src/screens/Today/CalorieDisplay';
 
 const Today: React.FC = () => {
   return (
     <>
-      <View style={styles.pageContent}>
+      <PageContent>
         <CalorieDisplay />
-      </View>
+      </PageContent>
     </>
   );
 };
 
-const styles = StyleSheet.create({
-  pageContent: {
-    backgroundColor: '#111',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-  },
-});
+const PageContent = styled.View`
+  background-color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
 
 export default Today;
