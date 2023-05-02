@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import styled from 'styled-components/native';
 
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
 
@@ -7,36 +7,34 @@ const CalorieDisplay = () => {
   const { isLoading, calorieCount } = useFoodEntries();
 
   return (
-    <View>
-      <Text style={styles.calorieDisplay}>
-        {isLoading ? '----' : calorieCount}
-      </Text>
-      <Text style={styles.caloriesLabel}>calories</Text>
-    </View>
+    <Container>
+      <CalorieText>{isLoading ? '----' : calorieCount}</CalorieText>
+      <CaloriesLabel>calories</CaloriesLabel>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  calorieDisplay: {
-    color: 'white',
-    fontSize: 128,
-    fontWeight: '500',
-    marginBottom: 0,
-    paddingBottom: 0,
-    lineHeight: 128,
-    textAlign: 'center',
-  },
-  caloriesLabel: {
-    color: 'white',
-    fontSize: 36,
-    marginTop: -24,
-    textAlign: 'center',
-  },
-});
+const Container = styled.View`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const CalorieText = styled.Text`
+  color: white;
+  font-size: 128px;
+  font-weight: 500;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  line-height: 128px;
+  text-align: center;
+`;
+
+const CaloriesLabel = styled.Text`
+  color: white;
+  font-size: 36px;
+  margin-top: -24px;
+  text-align: center;
+`;
 
 export default CalorieDisplay;

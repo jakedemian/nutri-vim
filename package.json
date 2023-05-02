@@ -34,7 +34,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.10",
     "react-query": "^3.39.3",
-    "react-router-dom": "^6.10.0"
+    "styled-components": "^5.3.10"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -44,6 +44,8 @@
     "@types/react": "~18.0.14",
     "@types/react-native": "^0.71.6",
     "@types/react-native-vector-icons": "^6.4.13",
+    "@types/styled-components": "^5.1.26",
+    "@types/styled-components-react-native": "^5.2.1",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "eslint": "^8.34.0",
