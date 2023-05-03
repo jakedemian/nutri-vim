@@ -1,12 +1,6 @@
 import * as React from 'react';
-import {
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import { Modal, Text, TouchableWithoutFeedback } from 'react-native';
+import styled from 'styled-components/native';
 
 type NutrivimModalProps = {
   children: React.ReactNode;
@@ -33,44 +27,39 @@ const NutrivimModal: React.FC<NutrivimModalProps> = ({
       onRequestClose={() => hide()}
       onShow={onShow}
     >
-      <TouchableOpacity
-        style={styles.centeredView}
-        activeOpacity={1}
-        onPressOut={() => hide()}
-      >
+      <CenteredTouchable activeOpacity={1} onPressOut={() => hide()}>
         <TouchableWithoutFeedback>
-          <View style={{ ...styles.modalView, width: width }}>
+          <Content style={{ width: width }}>
             <Text>{title}</Text>
             {children}
-          </View>
+          </Content>
         </TouchableWithoutFeedback>
-      </TouchableOpacity>
+      </CenteredTouchable>
     </Modal>
   );
 };
 
-const styles = StyleSheet.create({
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  centeredView: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-  },
-});
+const Content = styled.View`
+  margin: 20px;
+  background-color: white;
+  border-radius: 20px;
+  padding: 35px;
+  align-items: center;
+  /* shadow-color: '#000'; */
+  /* shadow-offset: {
+    width: 0,
+    height: 2,
+  }, */
+  /* shadow-opacity: 0.25;
+  shadow-radius: 4;
+  elevation: 5; */
+`;
+
+const CenteredTouchable = styled.TouchableOpacity`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
 
 export default NutrivimModal;

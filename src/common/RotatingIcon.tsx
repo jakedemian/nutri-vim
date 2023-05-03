@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, StyleSheet } from 'react-native';
+import { Animated, Easing } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import styled from 'styled-components/native';
 
 const RotatingIcon = () => {
   const spinValue = useRef(new Animated.Value(0)).current;
@@ -30,19 +31,17 @@ const RotatingIcon = () => {
   });
 
   return (
-    <Animated.View
-      style={[styles.iconContainer, { transform: [{ rotate: spin }] }]}
-    >
-      <Ionicons name="ice-cream" size={30} color="white" />
+    <Animated.View style={{ transform: [{ rotate: spin }] }}>
+      <IconContainer>
+        <Ionicons name="ice-cream" size={30} color="white" />
+      </IconContainer>
     </Animated.View>
   );
 };
 
-const styles = StyleSheet.create({
-  iconContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const IconContainer = styled.View`
+  align-items: center;
+  justify-content: center;
+`;
 
 export default RotatingIcon;

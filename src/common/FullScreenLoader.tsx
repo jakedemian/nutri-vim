@@ -1,28 +1,28 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import styled from 'styled-components/native';
 
 import Loading from 'src/common/Loading';
 
 const FullScreenLoader: React.FC = () => {
   return (
-    <View style={styles.container} testID="loader">
-      <View style={styles.flex}>
+    <Container testID="loader">
+      <Flex>
         <Loading />
-      </View>
-    </View>
+      </Flex>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#111',
-    height: '100%',
-  },
-  flex: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const Container = styled.View`
+  background-color: #111;
+  height: 100%;
+  width: 100%;
+`;
+
+const Flex = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
 
 export default FullScreenLoader;
