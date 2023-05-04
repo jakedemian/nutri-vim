@@ -34,6 +34,7 @@ export const useFoodEntries = () => {
       type: 'success',
       text1: 'Success',
       text2: 'Changes saved successfully',
+      position: 'bottom',
     });
   };
 
@@ -45,6 +46,7 @@ export const useFoodEntries = () => {
       type: 'success',
       text1: 'Success',
       text2: 'Got it!',
+      position: 'bottom',
     });
   };
 
@@ -56,6 +58,7 @@ export const useFoodEntries = () => {
       type: 'success',
       text1: 'Success',
       text2: 'Entry was deleted',
+      position: 'bottom',
     });
   };
 
@@ -67,6 +70,7 @@ export const useFoodEntries = () => {
       type: 'success',
       text1: 'Success',
       text2: 'All entries deleted',
+      position: 'bottom',
     });
   };
 

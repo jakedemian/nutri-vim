@@ -22,9 +22,12 @@ const toastConfig = {
     <SuccessToast
       {...props}
       style={{
-        backgroundColor: '#111',
+        backgroundColor: '#222',
         borderLeftColor: '#64E38D',
-        width: 300,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#64E38D',
+        width: 250,
       }}
       contentContainerStyle={{ paddingHorizontal: 15 }}
       text1Style={{

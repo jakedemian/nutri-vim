@@ -95,7 +95,7 @@ const List: React.FC = () => {
           title="Delete entry?"
         >
           <Text>Are you sure you want to delete this entry?</Text>
-          <HorizontalButtonPair>
+          <ModalButtonWrapper>
             <NutriButton
               text="Delete"
               onPress={() => {
@@ -108,7 +108,7 @@ const List: React.FC = () => {
               text="Go Back"
               onPress={() => hideDeletingEntryModal()}
             />
-          </HorizontalButtonPair>
+          </ModalButtonWrapper>
         </NutrivimModal>
       </ScrollView>
     </TouchableOpacity>
@@ -171,6 +171,15 @@ const HorizontalButtonPair = styled.View`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+`;
+
+const ModalButtonWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 8px;
+  gap: 8px;
 `;
 
 const ListIconButton = styled.TouchableOpacity`
