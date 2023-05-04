@@ -8,6 +8,10 @@ declare module 'styled-components/native' {
       primary: string;
       success: string;
       error: string;
+      white: string;
+    };
+    spacing: {
+      xs: string;
     };
   }
 }

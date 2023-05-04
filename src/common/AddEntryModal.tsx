@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   View,
   Platform,
-  Button,
 } from 'react-native';
 import uuid from 'react-native-uuid';
 import DateTimePicker, {
@@ -20,6 +19,7 @@ import {
   getCurrentLocalTimeString,
   getLocalTimeStringFromDate,
 } from 'src/util/getCurrentLocalTimeISOString';
+import NutriButton from 'src/common/NutriButton';
 
 type AddEntryModalProps = {
   visible: boolean;
@@ -139,9 +139,10 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
         </View>
       </SafeAreaView>
       <AddButtonContainer>
-        <Button
-          title="Add"
+        <NutriButton
+          text="Add"
           onPress={handleSubmit}
+          fullWidth
           disabled={
             !formState.name ||
             !formState.calories ||

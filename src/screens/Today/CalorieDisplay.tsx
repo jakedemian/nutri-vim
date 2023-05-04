@@ -7,17 +7,18 @@ const CalorieDisplay = () => {
   const { isLoading, calorieCount } = useFoodEntries();
 
   return (
-    <Container>
-      <CalorieText>{isLoading ? '----' : calorieCount}</CalorieText>
-      <CaloriesLabel>calories</CaloriesLabel>
-    </Container>
+    <>
+      <Container>
+        <CalorieText>{isLoading ? '----' : calorieCount}</CalorieText>
+        <CaloriesLabel>calories</CaloriesLabel>
+      </Container>
+    </>
   );
 };
 
 const Container = styled.View`
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
 const CalorieText = styled.Text`

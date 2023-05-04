@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { Button, Text } from 'react-native';
+import { Text } from 'react-native';
+import styled from 'styled-components/native';
 
 import NutrivimModal from 'src/common/NutrivimModal';
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
+import NutriButton from 'src/common/NutriButton';
 
 type ClearDayModalProps = {
   visible: boolean;
@@ -14,17 +16,28 @@ const ClearDayModal: React.FC<ClearDayModalProps> = ({ visible, hide }) => {
 
   return (
     <NutrivimModal visible={visible} hide={hide} title="Clear Day?">
-      <Text>Clear day modal!</Text>
-      <Button
-        title="Reset Data"
-        onPress={() => {
-          clearFoodEntries();
-          hide();
-        }}
-      />
-      <Button title="Go Back" onPress={() => hide()} />
+      <Text>
+        Clear all of today&apos;s entries? Your calorie count will be reset.
+      </Text>
+      <ButtonWrapper>
+        <NutriButton
+          text="Reset Data"
+          onPress={() => {
+            clearFoodEntries();
+            hide();
+          }}
+        />
+        <NutriButton text="Go Back" onPress={() => hide()} />
+      </ButtonWrapper>
     </NutrivimModal>
   );
 };
+
+const ButtonWrapper = styled.View`
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+`;
 
 export default ClearDayModal;

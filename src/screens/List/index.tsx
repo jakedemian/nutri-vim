@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Text, Pressable, ScrollView, View } from 'react-native';
+import { Text, ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
@@ -9,6 +9,7 @@ import NutrivimModal from 'src/common/NutrivimModal';
 import EditEntryModal from 'src/common/EditEntryModal';
 import RotatingIcon from 'src/common/RotatingIcon';
 import FullScreenLoader from 'src/common/FullScreenLoader';
+import NutriButton from 'src/common/NutriButton';
 
 const List: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<number>(-1);
@@ -50,18 +51,17 @@ const List: React.FC = () => {
             <View>
               {selectedItem === index ? (
                 <HorizontalButtonPair>
-                  <Pressable
+                  <NutriButton
+                    variant="alternate"
+                    text="Edit"
                     onPress={() => setEditingEntryId(entry.id)}
-                    style={{ padding: 12, backgroundColor: 'white' }}
-                  >
-                    <ButtonText>edit</ButtonText>
-                  </Pressable>
-                  <Pressable
+                  />
+
+                  <NutriButton
+                    variant="alternate"
+                    text="Delete"
                     onPress={() => setDeletingEntryId(entry.id)}
-                    style={{ padding: 12, backgroundColor: 'white' }}
-                  >
-                    <ButtonText>delete</ButtonText>
-                  </Pressable>
+                  />
                 </HorizontalButtonPair>
               ) : (
                 <Time>{formatDisplayTime(entry.time)}</Time>
@@ -84,14 +84,18 @@ const List: React.FC = () => {
       >
         <Text>Are you sure you want to delete this entry?</Text>
         <HorizontalButtonPair>
-          <Button
-            title="Delete"
+          <NutriButton
+            text="Delete"
             onPress={() => {
               deleteFoodEntry(deletingEntryId as string);
               hideDeletingEntryModal();
             }}
           />
-          <Button title="Go Back" onPress={() => hideDeletingEntryModal()} />
+
+          <NutriButton
+            text="Go Back"
+            onPress={() => hideDeletingEntryModal()}
+          />
         </HorizontalButtonPair>
       </NutrivimModal>
     </ScrollView>
@@ -139,15 +143,12 @@ const Time = styled.Text`
 `;
 
 const HorizontalButtonPair = styled.View`
+  margin-top: 16px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
   gap: 16px;
-`;
-
-const ButtonText = styled.Text`
-  color: ${props => props.theme.colors.primary};
 `;
 
 const Footer = styled.View`

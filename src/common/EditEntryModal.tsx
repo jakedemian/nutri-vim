@@ -5,7 +5,6 @@ import {
   View,
   Platform,
   TouchableOpacity,
-  Button,
 } from 'react-native';
 import DateTimePicker, {
   DateTimePickerAndroid,
@@ -20,6 +19,7 @@ import {
   getCurrentLocalTimeString,
   getLocalTimeStringFromDate,
 } from 'src/util/getCurrentLocalTimeISOString';
+import NutriButton from 'src/common/NutriButton';
 
 type EditEntryFormData = {
   name?: string;
@@ -96,12 +96,7 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
   }, [foodEntries, editingEntryId]);
 
   return (
-    <NutrivimModal
-      visible={!!editingEntryId}
-      hide={hide}
-      title={'Edit ENtry'}
-      // onShow={onShow}
-    >
+    <NutrivimModal visible={!!editingEntryId} hide={hide} title={'Edit Entry'}>
       <SafeAreaView style={{ width: '100%' }}>
         <ModalInput
           onChangeText={name =>
@@ -169,9 +164,10 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
         </View>
       </SafeAreaView>
       <SaveButtonContainer>
-        <Button
-          title="Save"
+        <NutriButton
+          text="Save"
           onPress={handleEditSubmit}
+          fullWidth
           disabled={
             !formState.name ||
             !formState.calories ||
