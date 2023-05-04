@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
-import { Text, ScrollView, View } from 'react-native';
+import {
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import styled from 'styled-components/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
 import { Entry } from 'src/common/types';
@@ -33,72 +40,78 @@ const List: React.FC = () => {
   }
 
   return (
-    <ScrollView style={{ backgroundColor: '#111', height: '100%' }}>
-      {foodEntries.map((entry: Entry, index: number) => (
-        <SelectedItem key={index} isSelected={selectedItem === index}>
-          <Card>
-            <PressableArea
+    <TouchableOpacity activeOpacity={1} onPress={() => setSelectedItem(-1)}>
+      <ScrollView style={{ backgroundColor: '#111', height: '100%' }}>
+        {foodEntries.map((entry: Entry, index: number) => (
+          <SelectedItem key={index} isSelected={selectedItem === index}>
+            <Card
               onPress={() =>
                 selectedItem === index
                   ? setSelectedItem(-1)
                   : setSelectedItem(index)
               }
+              onPressOut={() => console.log('out')}
               activeOpacity={1}
             >
-              <FoodName>{entry.name}</FoodName>
-              <Calories>{entry.calories} calories</Calories>
-            </PressableArea>
-            <View>
-              {selectedItem === index ? (
-                <HorizontalButtonPair>
-                  <NutriButton
-                    variant="alternate"
-                    text="Edit"
-                    onPress={() => setEditingEntryId(entry.id)}
-                  />
+              <CardLeftContent>
+                <FoodName>{entry.name}</FoodName>
+                <Calories>{entry.calories} calories</Calories>
+              </CardLeftContent>
+              <CardRightContent>
+                {selectedItem === index ? (
+                  <TouchableWithoutFeedback>
+                    <View>
+                      <HorizontalButtonPair>
+                        <ListIconButton
+                          onPress={() => setEditingEntryId(entry.id)}
+                        >
+                          <Ionicons name="pencil" size={30} color="#fff" />
+                        </ListIconButton>
+                        <ListIconButton
+                          onPress={() => setDeletingEntryId(entry.id)}
+                        >
+                          <Ionicons name="trash" size={30} color="#fff" />
+                        </ListIconButton>
+                      </HorizontalButtonPair>
+                    </View>
+                  </TouchableWithoutFeedback>
+                ) : (
+                  <Time>{formatDisplayTime(entry.time)}</Time>
+                )}
+              </CardRightContent>
+            </Card>
+          </SelectedItem>
+        ))}
+        <Footer>
+          <RotatingIcon />
+          <Text style={{ color: 'white' }}>That&apos;s all, folks!</Text>
+        </Footer>
 
-                  <NutriButton
-                    variant="alternate"
-                    text="Delete"
-                    onPress={() => setDeletingEntryId(entry.id)}
-                  />
-                </HorizontalButtonPair>
-              ) : (
-                <Time>{formatDisplayTime(entry.time)}</Time>
-              )}
-            </View>
-          </Card>
-        </SelectedItem>
-      ))}
-      <Footer>
-        <RotatingIcon />
-        <Text style={{ color: 'white' }}>That&apos;s all, folks!</Text>
-      </Footer>
+        {/* MODALS */}
+        <EditEntryModal hide={hideEditModal} editingEntryId={editingEntryId} />
+        <NutrivimModal
+          visible={!!deletingEntryId}
+          hide={hideDeletingEntryModal}
+          title="Delete entry?"
+        >
+          <Text>Are you sure you want to delete this entry?</Text>
+          <HorizontalButtonPair>
+            <NutriButton
+              text="Delete"
+              onPress={() => {
+                deleteFoodEntry(deletingEntryId as string);
+                hideDeletingEntryModal();
+              }}
+            />
 
-      {/* MODALS */}
-      <EditEntryModal hide={hideEditModal} editingEntryId={editingEntryId} />
-      <NutrivimModal
-        visible={!!deletingEntryId}
-        hide={hideDeletingEntryModal}
-        title="Delete entry?"
-      >
-        <Text>Are you sure you want to delete this entry?</Text>
-        <HorizontalButtonPair>
-          <NutriButton
-            text="Delete"
-            onPress={() => {
-              deleteFoodEntry(deletingEntryId as string);
-              hideDeletingEntryModal();
-            }}
-          />
-
-          <NutriButton
-            text="Go Back"
-            onPress={() => hideDeletingEntryModal()}
-          />
-        </HorizontalButtonPair>
-      </NutrivimModal>
-    </ScrollView>
+            <NutriButton
+              text="Go Back"
+              onPress={() => hideDeletingEntryModal()}
+            />
+          </HorizontalButtonPair>
+        </NutrivimModal>
+      </ScrollView>
+    </TouchableOpacity>
   );
 };
 
@@ -111,44 +124,57 @@ const FullScreenLoaderContainer = styled.View`
 const SelectedItem = styled.View<{ isSelected: boolean }>`
   background-color: ${({ isSelected, theme }) =>
     isSelected ? theme.colors.primary : 'transparent'};
+  margin: 8px;
+  border-radius: 4px;
 `;
 
-const Card = styled.View`
+const Card = styled.TouchableOpacity`
+  width: 100%;
+  overflow: hidden;
   display: flex;
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
   color: white;
-  padding: 16px;
 `;
 
-const PressableArea = styled.TouchableOpacity`
+const CardLeftContent = styled.View`
+  flex: 0.67;
   flex-direction: column;
+  padding: 16px;
 `;
 
 const FoodName = styled.Text`
   color: white;
-  font-size: 36px;
+  font-size: 24px;
 `;
 
 const Calories = styled.Text`
-  font-size: 24px;
+  font-size: 18px;
   font-style: italic;
   color: #ddd;
 `;
 
 const Time = styled.Text`
-  font-size: 36px;
+  font-size: 24px;
   color: white;
 `;
 
+const CardRightContent = styled.View`
+  flex: 0.33;
+  justify-content: center;
+  align-items: center;
+`;
+
 const HorizontalButtonPair = styled.View`
-  margin-top: 16px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  gap: 16px;
+`;
+
+const ListIconButton = styled.TouchableOpacity`
+  padding: 12px;
 `;
 
 const Footer = styled.View`
