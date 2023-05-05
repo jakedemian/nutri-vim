@@ -17,6 +17,7 @@ import EditEntryModal from 'src/common/EditEntryModal';
 import RotatingIcon from 'src/common/RotatingIcon';
 import FullScreenLoader from 'src/common/FullScreenLoader';
 import NutriButton from 'src/common/NutriButton';
+import { ModalButtonsWrapper, ModalText } from 'src/theme/component-styles';
 
 const List: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<number>(-1);
@@ -94,8 +95,8 @@ const List: React.FC = () => {
           hide={hideDeletingEntryModal}
           title="Delete entry?"
         >
-          <Text>Are you sure you want to delete this entry?</Text>
-          <ModalButtonWrapper>
+          <ModalText>Are you sure you want to delete this entry?</ModalText>
+          <ModalButtonsWrapper>
             <NutriButton
               text="Delete"
               onPress={() => {
@@ -108,7 +109,7 @@ const List: React.FC = () => {
               text="Go Back"
               onPress={() => hideDeletingEntryModal()}
             />
-          </ModalButtonWrapper>
+          </ModalButtonsWrapper>
         </NutrivimModal>
       </ScrollView>
     </TouchableOpacity>
@@ -171,15 +172,6 @@ const HorizontalButtonPair = styled.View`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-`;
-
-const ModalButtonWrapper = styled.View`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 8px;
-  gap: 8px;
 `;
 
 const ListIconButton = styled.TouchableOpacity`

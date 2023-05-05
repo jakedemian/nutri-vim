@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Modal, Text, TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
+import Color from 'color';
 
 type NutrivimModalProps = {
   children: React.ReactNode;
@@ -30,7 +31,16 @@ const NutrivimModal: React.FC<NutrivimModalProps> = ({
       <CenteredTouchable activeOpacity={1} onPressOut={() => hide()}>
         <TouchableWithoutFeedback>
           <Content style={{ width: width }}>
-            <Text>{title}</Text>
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 18,
+                marginBottom: 16,
+                fontWeight: '700',
+              }}
+            >
+              {title}
+            </Text>
             {children}
           </Content>
         </TouchableWithoutFeedback>
@@ -41,18 +51,11 @@ const NutrivimModal: React.FC<NutrivimModalProps> = ({
 
 const Content = styled.View`
   margin: 20px;
-  background-color: white;
-  border-radius: 20px;
+  background-color: ${({ theme }) =>
+    Color(theme.colors.primary).darken(0.7).desaturate(0.9).hex()};
+  border-radius: 4px;
   padding: 35px;
   align-items: center;
-  /* shadow-color: '#000'; */
-  /* shadow-offset: {
-    width: 0,
-    height: 2,
-  }, */
-  /* shadow-opacity: 0.25;
-  shadow-radius: 4;
-  elevation: 5; */
 `;
 
 const CenteredTouchable = styled.TouchableOpacity`
