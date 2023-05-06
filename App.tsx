@@ -6,11 +6,10 @@ import {
 } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Toast, { SuccessToast } from 'react-native-toast-message';
-import { ThemeProvider } from 'styled-components/native';
+import { NativeBaseProvider } from 'native-base';
 
 import RootNavigator from './src/RootNavigator';
 import { ModalProvider } from './src/context/ModalContext';
-import theme from './src/theme/theme';
 
 // If using route params, add them here
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -50,14 +49,16 @@ export default function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme}>
+        <NativeBaseProvider>
+          {/* <ThemeProvider theme={theme}> */}
           <NavigationContainer ref={navigation}>
             <ModalProvider>
               <RootNavigator />
             </ModalProvider>
           </NavigationContainer>
           <Toast config={toastConfig} />
-        </ThemeProvider>
+          {/* </ThemeProvider> */}
+        </NativeBaseProvider>
       </QueryClientProvider>
     </>
   );

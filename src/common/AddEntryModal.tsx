@@ -4,7 +4,7 @@ import uuid from 'react-native-uuid';
 import DateTimePicker, {
   DateTimePickerAndroid,
 } from '@react-native-community/datetimepicker';
-import styled from 'styled-components/native';
+import { Button, Input, Text } from 'native-base';
 
 import NutrivimModal from 'src/common/NutrivimModal';
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
@@ -14,11 +14,6 @@ import {
   getLocalTimeStringFromDate,
 } from 'src/util/getCurrentLocalTimeISOString';
 import NutriButton from 'src/common/NutriButton';
-import {
-  ModalAndroidTimeText,
-  ModalChangeTimeButton,
-  ModalInput,
-} from 'src/theme/component-styles';
 
 type AddEntryModalProps = {
   visible: boolean;
@@ -72,7 +67,7 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
       onShow={onShow}
     >
       <SafeAreaView>
-        <ModalInput
+        <Input
           onChangeText={name =>
             setFormState({
               ...formState,
@@ -82,7 +77,7 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
           value={formState.name}
           placeholder="What did you eat?"
         />
-        <ModalInput
+        <Input
           onChangeText={calories =>
             setFormState({
               ...formState,
@@ -108,10 +103,8 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
             />
           )}
           {Platform.OS === 'android' && (
-            <TimePickerAndroid>
-              <ModalAndroidTimeText>
-                {formatDisplayTime(formState.time)}
-              </ModalAndroidTimeText>
+            <View>
+              <Text>{formatDisplayTime(formState.time)}</Text>
               <TouchableOpacity
                 onPress={() =>
                   DateTimePickerAndroid.open({
@@ -133,13 +126,13 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
                   })
                 }
               >
-                <ModalChangeTimeButton>Change</ModalChangeTimeButton>
+                <Button>Change</Button>
               </TouchableOpacity>
-            </TimePickerAndroid>
+            </View>
           )}
         </View>
       </SafeAreaView>
-      <AddButtonContainer>
+      <View>
         <NutriButton
           text="Add"
           onPress={handleSubmit}
@@ -150,22 +143,9 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
             isNaN(Number(formState.calories))
           }
         />
-      </AddButtonContainer>
+      </View>
     </NutrivimModal>
   );
 };
-
-const TimePickerAndroid = styled.View`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const AddButtonContainer = styled.View`
-  margin-top: 16px;
-  align-self: stretch;
-  width: 100%;
-`;
 
 export default AddEntryModal;

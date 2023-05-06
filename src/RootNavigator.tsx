@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ThemeContext } from 'styled-components';
 
 import Today from 'src/screens/Today';
 import { ModalContext } from 'src/context/ModalContext';
@@ -12,7 +11,6 @@ const Tab = createBottomTabNavigator();
 
 const RootNavigator: React.FC = () => {
   const { showAddEntryModal, showClearDayModal } = useContext(ModalContext);
-  const themeContext = useContext(ThemeContext);
 
   return (
     <Tab.Navigator
@@ -23,6 +21,20 @@ const RootNavigator: React.FC = () => {
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
+        },
+        tabBarStyle: {
+          height: 60,
+        },
+        tabBarActiveBackgroundColor: '#2a2a2a',
+        tabBarInactiveBackgroundColor: '#222',
+        // tabBarActiveTintColor: themeContext.colors.primary,
+        tabBarInactiveTintColor: 'gray',
+        tabBarIconStyle: {
+          // todo
+        },
+        tabBarLabelStyle: {
+          fontWeight: '700',
+          // todo
         },
         headerRight: () => (
           <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -52,11 +64,6 @@ const RootNavigator: React.FC = () => {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-
-        tabBarActiveBackgroundColor: '#444',
-        tabBarInactiveBackgroundColor: '#333',
-        tabBarActiveTintColor: themeContext.colors.primary,
-        tabBarInactiveTintColor: 'gray',
       })}
     >
       <Tab.Screen name="Today" component={Today} />

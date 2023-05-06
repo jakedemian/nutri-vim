@@ -1,5 +1,5 @@
+import { Pressable, Text, View } from 'native-base';
 import React from 'react';
-import styled from 'styled-components/native';
 
 type Variant = 'primary' | 'alternate';
 
@@ -19,39 +19,12 @@ const NutriButton: React.FC<NutriButtonProps> = ({
   disabled,
 }) => {
   return (
-    <StyledButton fullWidth={!!fullWidth} variant={variant}>
-      <StyledPressable onPress={onPress} disabled={disabled}>
-        <StyledText variant={variant}>{text || 'Button'}</StyledText>
-      </StyledPressable>
-    </StyledButton>
+    <View /*fullWidth={!!fullWidth} variant={variant}*/>
+      <Pressable onPress={onPress} disabled={disabled}>
+        <Text variant={variant}>{text || 'Button'}</Text>
+      </Pressable>
+    </View>
   );
 };
-
-const StyledButton = styled.View<{
-  fullWidth: boolean;
-  variant: Variant;
-}>`
-  background-color: ${props =>
-    props.variant === 'primary'
-      ? props.theme.colors.primary
-      : props.theme.colors.white};
-  padding: 4px 16px;
-  border-radius: 2px;
-  width: ${props => (props.fullWidth ? '100%' : 'auto')};
-  margin: 0;
-`;
-
-const StyledPressable = styled.Pressable`
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StyledText = styled.Text<{ variant: Variant }>`
-  color: ${props =>
-    props.variant === 'primary'
-      ? props.theme.colors.white
-      : props.theme.colors.primary};
-`;
 
 export default NutriButton;

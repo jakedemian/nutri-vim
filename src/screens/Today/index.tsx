@@ -1,24 +1,16 @@
 import React from 'react';
-import styled from 'styled-components/native';
+import { View } from 'native-base';
 
 import CalorieDisplay from 'src/screens/Today/CalorieDisplay';
 
 const Today: React.FC = () => {
   return (
     <>
-      <PageContent>
+      <View>
         <CalorieDisplay />
-      </PageContent>
+      </View>
     </>
   );
 };
-
-const PageContent = styled.View`
-  background-color: #111;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-`;
 
 export default Today;

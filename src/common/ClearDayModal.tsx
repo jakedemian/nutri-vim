@@ -1,9 +1,9 @@
 import * as React from 'react';
+import { Text, View } from 'native-base';
 
 import NutrivimModal from 'src/common/NutrivimModal';
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
 import NutriButton from 'src/common/NutriButton';
-import { ModalButtonsWrapper, ModalText } from 'src/theme/component-styles';
 
 type ClearDayModalProps = {
   visible: boolean;
@@ -15,10 +15,10 @@ const ClearDayModal: React.FC<ClearDayModalProps> = ({ visible, hide }) => {
 
   return (
     <NutrivimModal visible={visible} hide={hide} title="Clear Day?">
-      <ModalText>
+      <Text>
         Clear all of today&apos;s entries? Your calorie count will be reset.
-      </ModalText>
-      <ModalButtonsWrapper>
+      </Text>
+      <View>
         <NutriButton
           text="Reset Data"
           onPress={() => {
@@ -27,7 +27,7 @@ const ClearDayModal: React.FC<ClearDayModalProps> = ({ visible, hide }) => {
           }}
         />
         <NutriButton text="Go Back" onPress={() => hide()} />
-      </ModalButtonsWrapper>
+      </View>
     </NutrivimModal>
   );
 };
