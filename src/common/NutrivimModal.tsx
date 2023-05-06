@@ -1,19 +1,12 @@
 import * as React from 'react';
-import {
-  Modal,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import { View } from 'native-base';
+import { View, Modal, Button } from 'native-base';
 
 type NutrivimModalProps = {
   children: React.ReactNode;
   hide: () => void;
   visible: boolean;
   title: string;
-  onShow?: () => void;
-  width?: number;
+  buttonRow?: React.ReactNode;
 };
 
 const NutrivimModal: React.FC<NutrivimModalProps> = ({
@@ -21,34 +14,27 @@ const NutrivimModal: React.FC<NutrivimModalProps> = ({
   hide,
   visible,
   title,
-  onShow,
-  width = 256,
+  buttonRow,
 }) => {
   return (
     <Modal
-      animationType="slide"
-      transparent={true}
-      visible={visible}
-      onRequestClose={() => hide()}
-      onShow={onShow}
+      animationPreset="slide"
+      isOpen={visible}
+      onClose={() => hide()}
+      size="md"
     >
-      <TouchableOpacity activeOpacity={1} onPressOut={() => hide()}>
-        <TouchableWithoutFeedback>
-          <View style={{ width: width }}>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 18,
-                marginBottom: 16,
-                fontWeight: '700',
-              }}
-            >
-              {title}
-            </Text>
-            {children}
-          </View>
-        </TouchableWithoutFeedback>
-      </TouchableOpacity>
+      <Modal.Content>
+        <Modal.CloseButton />
+        <Modal.Header backgroundColor={'primary.800'}>{title}</Modal.Header>
+        <Modal.Body backgroundColor={'primary.800'}>
+          <View>{children}</View>
+        </Modal.Body>
+        {!!buttonRow && (
+          <Modal.Footer backgroundColor={'primary.800'}>
+            {buttonRow}
+          </Modal.Footer>
+        )}
+      </Modal.Content>
     </Modal>
   );
 };

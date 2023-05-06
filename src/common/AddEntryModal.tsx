@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, TouchableOpacity, View, Platform } from 'react-native';
 import uuid from 'react-native-uuid';
 import DateTimePicker, {
@@ -55,16 +55,38 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
     hide();
   };
 
-  const onShow = () => {
-    setFormState(getDefaultFormState());
-  };
+  useEffect(() => {
+    if (!visible) {
+      setFormState(getDefaultFormState());
+    }
+  }, [visible]);
 
   return (
     <NutrivimModal
       visible={visible}
       hide={hide}
       title={'Add Entry'}
-      onShow={onShow}
+      buttonRow={
+        <Button.Group space={2}>
+          <Button
+            variant="ghost"
+            colorScheme="blueGray"
+            onPress={() => {
+              hide();
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onPress={() => {
+              handleSubmit();
+              hide();
+            }}
+          >
+            Add
+          </Button>
+        </Button.Group>
+      }
     >
       <SafeAreaView>
         <Input
@@ -74,8 +96,14 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
               name,
             })
           }
+          // TODO working on styling these inputs.. they should be moved out into a shared component btw
           value={formState.name}
           placeholder="What did you eat?"
+          backgroundColor={'primary.300'}
+          color="white"
+          fontWeight={700}
+          placeholderTextColor="primary.400"
+          cursorColor={'white'}
         />
         <Input
           onChangeText={calories =>
@@ -87,6 +115,11 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
           value={formState.calories}
           placeholder="How many calories?"
           keyboardType="numeric"
+          backgroundColor={'primary.300'}
+          color="white"
+          fontWeight={700}
+          placeholderTextColor="primary.400"
+          cursorColor={'white'}
         />
         <View>
           {Platform.OS === 'ios' && (
@@ -132,18 +165,6 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
           )}
         </View>
       </SafeAreaView>
-      <View>
-        <NutriButton
-          text="Add"
-          onPress={handleSubmit}
-          fullWidth
-          disabled={
-            !formState.name ||
-            !formState.calories ||
-            isNaN(Number(formState.calories))
-          }
-        />
-      </View>
     </NutrivimModal>
   );
 };
