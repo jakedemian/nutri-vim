@@ -6,7 +6,7 @@ import CalorieDisplay from 'src/screens/Today/CalorieDisplay';
 const Today: React.FC = () => {
   return (
     <>
-      <View>
+      <View backgroundColor={'primary.900'} height="100%">
         <CalorieDisplay />
       </View>
     </>

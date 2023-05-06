@@ -10,6 +10,7 @@ import { NativeBaseProvider } from 'native-base';
 
 import RootNavigator from './src/RootNavigator';
 import { ModalProvider } from './src/context/ModalContext';
+import { theme } from './src/theme/theme';
 
 // If using route params, add them here
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -49,15 +50,13 @@ export default function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <NativeBaseProvider>
-          {/* <ThemeProvider theme={theme}> */}
+        <NativeBaseProvider theme={theme}>
           <NavigationContainer ref={navigation}>
             <ModalProvider>
               <RootNavigator />
             </ModalProvider>
           </NavigationContainer>
           <Toast config={toastConfig} />
-          {/* </ThemeProvider> */}
         </NativeBaseProvider>
       </QueryClientProvider>
     </>
