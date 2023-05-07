@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, TouchableOpacity, View, Platform } from 'react-native';
+import { SafeAreaView, Platform } from 'react-native';
 import uuid from 'react-native-uuid';
 import DateTimePicker, {
   DateTimePickerAndroid,
 } from '@react-native-community/datetimepicker';
-import { Button, Input, Text } from 'native-base';
+import { Button, HStack, Text, View } from 'native-base';
 
 import NutrivimModal from 'src/common/NutrivimModal';
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
@@ -13,7 +13,7 @@ import {
   getCurrentLocalTimeString,
   getLocalTimeStringFromDate,
 } from 'src/util/getCurrentLocalTimeISOString';
-import NutriButton from 'src/common/NutriButton';
+import NutrivimInput from 'src/common/NutrivimInput';
 
 type AddEntryModalProps = {
   visible: boolean;
@@ -89,23 +89,17 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
       }
     >
       <SafeAreaView>
-        <Input
+        <NutrivimInput
           onChangeText={name =>
             setFormState({
               ...formState,
               name,
             })
           }
-          // TODO working on styling these inputs.. they should be moved out into a shared component btw
           value={formState.name}
           placeholder="What did you eat?"
-          backgroundColor={'primary.300'}
-          color="white"
-          fontWeight={700}
-          placeholderTextColor="primary.400"
-          cursorColor={'white'}
         />
-        <Input
+        <NutrivimInput
           onChangeText={calories =>
             setFormState({
               ...formState,
@@ -115,13 +109,9 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
           value={formState.calories}
           placeholder="How many calories?"
           keyboardType="numeric"
-          backgroundColor={'primary.300'}
-          color="white"
-          fontWeight={700}
-          placeholderTextColor="primary.400"
-          cursorColor={'white'}
+          mt={2}
         />
-        <View>
+        <View mt={2}>
           {Platform.OS === 'ios' && (
             <DateTimePicker
               value={new Date(formState.time)}
@@ -136,9 +126,9 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
             />
           )}
           {Platform.OS === 'android' && (
-            <View>
-              <Text>{formatDisplayTime(formState.time)}</Text>
-              <TouchableOpacity
+            <HStack justifyContent="center">
+              <Button
+                py={1}
                 onPress={() =>
                   DateTimePickerAndroid.open({
                     value: new Date(formState.time),
@@ -159,9 +149,9 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
                   })
                 }
               >
-                <Button>Change</Button>
-              </TouchableOpacity>
-            </View>
+                <Text fontSize={24}>{formatDisplayTime(formState.time)}</Text>
+              </Button>
+            </HStack>
           )}
         </View>
       </SafeAreaView>

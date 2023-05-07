@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Modal, Button } from 'native-base';
+import { View, Modal } from 'native-base';
 
 type NutrivimModalProps = {
   children: React.ReactNode;
@@ -25,12 +25,19 @@ const NutrivimModal: React.FC<NutrivimModalProps> = ({
     >
       <Modal.Content>
         <Modal.CloseButton />
-        <Modal.Header backgroundColor={'primary.800'}>{title}</Modal.Header>
-        <Modal.Body backgroundColor={'primary.800'}>
+        <Modal.Header
+          borderColor={'#0000'}
+          borderStyle={'dashed'}
+          backgroundColor={'primary.900'}
+          mb={-1} // hiding the weird gray "border"
+        >
+          {title}
+        </Modal.Header>
+        <Modal.Body backgroundColor={'primary.900'}>
           <View>{children}</View>
         </Modal.Body>
         {!!buttonRow && (
-          <Modal.Footer backgroundColor={'primary.800'}>
+          <Modal.Footer backgroundColor={'primary.900'} borderColor={'#0000'}>
             {buttonRow}
           </Modal.Footer>
         )}
