@@ -27,7 +27,6 @@ const NutrivimModal: React.FC<NutrivimModalProps> = ({
         <Modal.CloseButton />
         <Modal.Header
           borderColor={'#0000'}
-          borderStyle={'dashed'}
           backgroundColor={'primary.900'}
           mb={-1} // hiding the weird gray "border"
         >

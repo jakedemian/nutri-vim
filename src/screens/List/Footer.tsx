@@ -11,7 +11,7 @@ const Footer = () => {
         <Icon
           as={FontAwesome5}
           name="minus"
-          color="primary.800"
+          color="primary.700"
           size={6}
           mx={6}
         />
@@ -19,7 +19,7 @@ const Footer = () => {
         <Icon
           as={FontAwesome5}
           name="minus"
-          color="primary.800"
+          color="primary.700"
           size={6}
           mx={6}
         />

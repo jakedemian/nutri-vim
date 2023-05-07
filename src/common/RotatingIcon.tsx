@@ -43,7 +43,7 @@ const RotatingIcon = () => {
   return (
     <Animated.View style={{ transform: [{ rotate: spin }] }}>
       <View>
-        <Icon as={FontAwesome5} name={icon} color="primary.600" size={6} />
+        <Icon as={FontAwesome5} name={icon} color="primary.500" size={6} />
       </View>
     </Animated.View>
   );

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTheme, Icon, IconButton, Text } from 'native-base';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -27,11 +27,16 @@ const RootNavigator: React.FC = () => {
           fontWeight: 'bold',
         },
         tabBarStyle: {
-          height: 60,
+          height: Platform.OS === 'ios' ? 80 : 60,
         },
         tabBarActiveBackgroundColor: '#2a2a2a',
         tabBarInactiveBackgroundColor: '#222',
         tabBarInactiveTintColor: 'gray',
+        tabBarItemStyle: {
+          // marginBottom: Platform.OS === 'ios' ? 30 : 0,
+          height: Platform.OS === 'ios' ? 80 : 60,
+          paddingBottom: Platform.OS === 'ios' ? 20 : 0,
+        },
         headerRight: () => (
           <View style={{ flex: 1, flexDirection: 'row' }}>
             <IconButton
@@ -49,6 +54,7 @@ const RootNavigator: React.FC = () => {
             />
           </View>
         ),
+
         tabBarLabel: ({ focused }) => {
           let text = '';
           let color = '';
@@ -62,7 +68,13 @@ const RootNavigator: React.FC = () => {
           }
 
           return (
-            <Text fontSize={12} mt={-2} mb={1} color={color} fontWeight={700}>
+            <Text
+              fontSize={12}
+              mb={1}
+              color={color}
+              fontWeight={700}
+              mt={Platform.OS === 'ios' ? -2 : 0}
+            >
               {text}
             </Text>
           );
