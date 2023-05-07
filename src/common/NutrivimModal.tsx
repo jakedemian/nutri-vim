@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Modal } from 'native-base';
+import { View, Modal, Text } from 'native-base';
 
 type NutrivimModalProps = {
   children: React.ReactNode;
@@ -31,7 +31,9 @@ const NutrivimModal: React.FC<NutrivimModalProps> = ({
           backgroundColor={'primary.900'}
           mb={-1} // hiding the weird gray "border"
         >
-          {title}
+          <Text fontSize={24} fontWeight={700} mt={-2}>
+            {title}
+          </Text>
         </Modal.Header>
         <Modal.Body backgroundColor={'primary.900'}>
           <View>{children}</View>

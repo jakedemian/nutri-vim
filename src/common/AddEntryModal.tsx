@@ -111,7 +111,7 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
           keyboardType="numeric"
           mt={2}
         />
-        <View mt={2}>
+        <View mt={4}>
           {Platform.OS === 'ios' && (
             <DateTimePicker
               value={new Date(formState.time)}
