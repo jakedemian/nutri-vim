@@ -19,6 +19,7 @@ import NutrivimModal from 'src/common/NutrivimModal';
 import EditEntryModal from 'src/common/EditEntryModal';
 import FullScreenLoader from 'src/common/FullScreenLoader';
 import Footer from 'src/screens/List/Footer';
+import EmptyList from 'src/screens/List/EmptyList';
 
 const List: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<number>(-1);
@@ -35,10 +36,19 @@ const List: React.FC = () => {
 
   if (isLoading) {
     return (
-      <View>
+      <HStack
+        h="100%"
+        justifyContent="center"
+        alignItems="center"
+        backgroundColor="primary.900"
+      >
         <FullScreenLoader />
-      </View>
+      </HStack>
     );
+  }
+
+  if (foodEntries.length === 0) {
+    return <EmptyList />;
   }
 
   return (

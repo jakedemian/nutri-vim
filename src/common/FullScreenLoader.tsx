@@ -1,13 +1,11 @@
-import { View } from 'native-base';
+import { Spinner, View } from 'native-base';
 import React from 'react';
-
-import Loading from 'src/common/Loading';
 
 const FullScreenLoader: React.FC = () => {
   return (
     <View testID="loader">
       <View>
-        <Loading />
+        <Spinner size={48} color="primary.400" />
       </View>
     </View>
   );
