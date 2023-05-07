@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, Platform, TouchableOpacity } from 'react-native';
+import { SafeAreaView, Platform } from 'react-native';
 import DateTimePicker, {
   DateTimePickerAndroid,
 } from '@react-native-community/datetimepicker';
-import { Button, Input, Text } from 'native-base';
+import { Button, HStack, View, Text } from 'native-base';
 
 import NutrivimModal from 'src/common/NutrivimModal';
 import { Entry } from 'src/common/types';
@@ -14,6 +14,7 @@ import {
   getLocalTimeStringFromDate,
 } from 'src/util/getCurrentLocalTimeISOString';
 import NutriButton from 'src/common/NutriButton';
+import NutrivimInput from 'src/common/NutrivimInput';
 
 type EditEntryFormData = {
   name?: string;
@@ -90,9 +91,34 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
   }, [foodEntries, editingEntryId]);
 
   return (
-    <NutrivimModal visible={!!editingEntryId} hide={hide} title={'Edit Entry'}>
+    <NutrivimModal
+      visible={!!editingEntryId}
+      hide={hide}
+      title={'Edit Entry'}
+      buttonRow={
+        <Button.Group space={2}>
+          <Button
+            variant="ghost"
+            colorScheme="blueGray"
+            onPress={() => {
+              hide();
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onPress={() => {
+              handleEditSubmit();
+              hide();
+            }}
+          >
+            Save
+          </Button>
+        </Button.Group>
+      }
+    >
       <SafeAreaView style={{ width: '100%' }}>
-        <Input
+        <NutrivimInput
           onChangeText={name =>
             setFormState({
               ...formState,
@@ -102,7 +128,7 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
           value={formState.name}
           placeholder="What did you eat?"
         />
-        <Input
+        <NutrivimInput
           onChangeText={calories =>
             setFormState({
               ...formState,
@@ -112,8 +138,9 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
           value={formState.calories}
           placeholder="How many calories?"
           keyboardType="numeric"
+          mt={2}
         />
-        <View>
+        <View mt={4}>
           {Platform.OS === 'ios' && (
             <DateTimePicker
               value={new Date(formState.time as string)}
@@ -128,9 +155,9 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
             />
           )}
           {Platform.OS === 'android' && (
-            <View>
-              <Text>{formatDisplayTime(formState.time as string)}</Text>
-              <TouchableOpacity
+            <HStack justifyContent="center">
+              <Button
+                py={1}
                 onPress={() =>
                   DateTimePickerAndroid.open({
                     value: new Date(formState.time as string),
@@ -151,24 +178,14 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
                   })
                 }
               >
-                <Button>Change</Button>
-              </TouchableOpacity>
-            </View>
+                <Text fontSize={24}>
+                  {formatDisplayTime(formState.time as string)}
+                </Text>
+              </Button>
+            </HStack>
           )}
         </View>
       </SafeAreaView>
-      <View>
-        <NutriButton
-          text="Save"
-          onPress={handleEditSubmit}
-          fullWidth
-          disabled={
-            !formState.name ||
-            !formState.calories ||
-            isNaN(Number(formState.calories))
-          }
-        />
-      </View>
     </NutrivimModal>
   );
 };
