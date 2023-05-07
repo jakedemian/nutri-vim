@@ -27,6 +27,7 @@ export default {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#FFFFFF',
       },
+      softwareKeyboardLayoutMode: 'pan',
     },
     web: {
       favicon: './assets/favicon.png',
