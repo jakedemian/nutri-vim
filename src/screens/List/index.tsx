@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import {
+  View,
+  IconButton,
+  Icon,
+  VStack,
+  HStack,
   Text,
   ScrollView,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-} from 'react-native';
-import { View } from 'native-base';
+  Pressable,
+} from 'native-base';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
 import { Entry } from 'src/common/types';
@@ -39,46 +43,75 @@ const List: React.FC = () => {
 
   return (
     <View backgroundColor="primary.900" height="100%">
-      <TouchableOpacity activeOpacity={1} onPress={() => setSelectedItem(-1)}>
-        <ScrollView>
+      <Pressable onPress={() => setSelectedItem(-1)} height="100%">
+        <ScrollView pt={2}>
           {foodEntries.map((entry: Entry, index: number) => (
-            <View key={index} /*isSelected={selectedItem === index}*/>
-              <TouchableOpacity
+            <View
+              key={index}
+              backgroundColor={
+                selectedItem === index ? 'primary.600' : 'transparent'
+              }
+              mx={4}
+              my={1}
+              py={2}
+              px={4}
+              borderRadius={4}
+            >
+              <Pressable
                 onPress={() =>
                   selectedItem === index
                     ? setSelectedItem(-1)
                     : setSelectedItem(index)
                 }
                 onPressOut={() => console.log('out')}
-                activeOpacity={1}
               >
-                <View>
-                  <Text>{entry.name}</Text>
-                  <Text>{entry.calories} calories</Text>
-                </View>
-                <View>
-                  {selectedItem === index ? (
-                    <TouchableWithoutFeedback>
-                      <View>
-                        <View>
-                          <TouchableOpacity
-                            onPress={() => setEditingEntryId(entry.id)}
-                          >
-                            {/* <Ionicons name="pencil" size={30} color="#fff" /> */}
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            onPress={() => setDeletingEntryId(entry.id)}
-                          >
-                            {/* <Ionicons name="trash" size={30} color="#fff" /> */}
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    </TouchableWithoutFeedback>
-                  ) : (
-                    <Text>{formatDisplayTime(entry.time)}</Text>
-                  )}
-                </View>
-              </TouchableOpacity>
+                <HStack>
+                  <VStack flex={1}>
+                    <Text fontSize={24} fontWeight={700} color="white">
+                      {entry.name}
+                    </Text>
+                    <Text fontSize={18} fontStyle="italic" color="white">
+                      {entry.calories} calories
+                    </Text>
+                  </VStack>
+                  <HStack alignItems="center">
+                    {selectedItem === index ? (
+                      <HStack>
+                        <IconButton
+                          variant="ghost"
+                          icon={
+                            <Icon
+                              as={FontAwesome5}
+                              name="pen"
+                              color="#fff"
+                              size={6}
+                            />
+                          }
+                          onPress={() => setEditingEntryId(entry.id)}
+                          p={4}
+                        />
+                        <IconButton
+                          variant="ghost"
+                          icon={
+                            <Icon
+                              as={FontAwesome5}
+                              name="trash"
+                              color="#fff"
+                              size={6}
+                            />
+                          }
+                          onPress={() => setDeletingEntryId(entry.id)}
+                          p={4}
+                        />
+                      </HStack>
+                    ) : (
+                      <Text color="white" fontSize={24}>
+                        {formatDisplayTime(entry.time)}
+                      </Text>
+                    )}
+                  </HStack>
+                </HStack>
+              </Pressable>
             </View>
           ))}
           <Footer />
@@ -110,7 +143,7 @@ const List: React.FC = () => {
             </View>
           </NutrivimModal>
         </ScrollView>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };
