@@ -20,7 +20,7 @@ const CalorieDisplay = () => {
           {isLoading ? '----' : calorieCount}
         </Text>
         <Text
-          color="#fff"
+          color="primary.50"
           fontSize={CALORIES_LABEL_SIZE}
           lineHeight={CALORIES_LABEL_SIZE}
         >
