@@ -13,7 +13,6 @@ import {
   getCurrentLocalTimeString,
   getLocalTimeStringFromDate,
 } from 'src/util/getCurrentLocalTimeISOString';
-import NutriButton from 'src/common/NutriButton';
 import NutrivimInput from 'src/common/NutrivimInput';
 
 type EditEntryFormData = {

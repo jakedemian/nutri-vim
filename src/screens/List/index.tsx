@@ -8,6 +8,7 @@ import {
   Text,
   ScrollView,
   Pressable,
+  Button,
 } from 'native-base';
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -17,7 +18,6 @@ import { formatDisplayTime } from 'src/util/formatDisplayTime';
 import NutrivimModal from 'src/common/NutrivimModal';
 import EditEntryModal from 'src/common/EditEntryModal';
 import FullScreenLoader from 'src/common/FullScreenLoader';
-import NutriButton from 'src/common/NutriButton';
 import Footer from 'src/screens/List/Footer';
 
 const List: React.FC = () => {
@@ -125,22 +125,28 @@ const List: React.FC = () => {
             visible={!!deletingEntryId}
             hide={hideDeletingEntryModal}
             title="Delete entry?"
+            buttonRow={
+              <Button.Group space={2}>
+                <Button
+                  variant="ghost"
+                  colorScheme="blueGray"
+                  onPress={() => hideDeletingEntryModal()}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onPress={() => {
+                    deleteFoodEntry(deletingEntryId as string);
+                    hideDeletingEntryModal();
+                  }}
+                  backgroundColor="rose.900"
+                >
+                  Delete
+                </Button>
+              </Button.Group>
+            }
           >
             <Text>Are you sure you want to delete this entry?</Text>
-            <View>
-              <NutriButton
-                text="Delete"
-                onPress={() => {
-                  deleteFoodEntry(deletingEntryId as string);
-                  hideDeletingEntryModal();
-                }}
-              />
-
-              <NutriButton
-                text="Go Back"
-                onPress={() => hideDeletingEntryModal()}
-              />
-            </View>
           </NutrivimModal>
         </ScrollView>
       </Pressable>

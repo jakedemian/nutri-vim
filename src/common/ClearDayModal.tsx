@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Button, Text, View } from 'native-base';
+import { Button, Text } from 'native-base';
 
 import NutrivimModal from 'src/common/NutrivimModal';
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
-import NutriButton from 'src/common/NutriButton';
 
 type ClearDayModalProps = {
   visible: boolean;
