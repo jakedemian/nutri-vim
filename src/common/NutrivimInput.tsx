@@ -1,34 +1,38 @@
 import { Input } from 'native-base';
 import React from 'react';
-import { KeyboardTypeOptions } from 'react-native';
+import { TextInput, KeyboardTypeOptions } from 'react-native';
 
-type NutrivimInputProps = React.ComponentProps<typeof Input> & {
-  onChangeText: (value: string) => void;
-  value: string | undefined;
+type NutrivimInputProps = {
+  onChangeText: (text: string) => void;
+  value?: string;
   placeholder: string;
   keyboardType?: KeyboardTypeOptions;
+  mt?: number;
+  onSubmitEditing?: () => void;
+  refCallback?: (ref: TextInput) => void;
 };
 
-const NutrivimInput: React.FC<NutrivimInputProps> = ({
-  onChangeText,
-  value,
-  placeholder,
-  keyboardType,
-  ...props
-}) => {
+const NutrivimInput: React.FC<NutrivimInputProps> = props => {
+  const {
+    onChangeText,
+    value,
+    placeholder,
+    keyboardType,
+    mt,
+    onSubmitEditing,
+    refCallback,
+  } = props;
+
   return (
     <Input
-      {...props}
       onChangeText={onChangeText}
       value={value}
       placeholder={placeholder}
-      borderWidth={0}
-      backgroundColor="primary.800"
-      color="white"
-      fontWeight={700}
-      placeholderTextColor="primary.400"
-      cursorColor={'white'}
-      keyboardType={keyboardType || undefined}
+      keyboardType={keyboardType}
+      mt={mt}
+      onSubmitEditing={onSubmitEditing}
+      blurOnSubmit={false}
+      ref={refCallback}
     />
   );
 };

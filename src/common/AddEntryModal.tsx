@@ -14,6 +14,7 @@ import {
   getLocalTimeStringFromDate,
 } from 'src/util/getCurrentLocalTimeISOString';
 import NutrivimInput from 'src/common/NutrivimInput';
+import { useInputFocus } from 'src/hooks/useInputFocus';
 
 type AddEntryModalProps = {
   visible: boolean;
@@ -39,6 +40,7 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
     getDefaultFormState()
   );
   const { addFoodEntry } = useFoodEntries();
+  const { setInputRef, focusNextInput } = useInputFocus();
 
   const handleSubmit = () => {
     if (!formState.name || !formState.calories || !formState.time) {
@@ -90,6 +92,7 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
     >
       <SafeAreaView>
         <NutrivimInput
+          refCallback={ref => setInputRef('name', ref)}
           onChangeText={name =>
             setFormState({
               ...formState,
@@ -98,8 +101,10 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
           }
           value={formState.name}
           placeholder="What did you eat?"
+          onSubmitEditing={() => focusNextInput('calories')}
         />
         <NutrivimInput
+          refCallback={ref => setInputRef('calories', ref)}
           onChangeText={calories =>
             setFormState({
               ...formState,
