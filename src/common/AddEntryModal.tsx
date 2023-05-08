@@ -42,7 +42,22 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
   const { addFoodEntry } = useFoodEntries();
   const { setInputRef, focusNextInput } = useInputFocus();
 
+  const onNameChange = (name: string) => {
+    setFormState(prevState => ({
+      ...prevState,
+      name,
+    }));
+  };
+
+  const onCaloriesChange = (calories: string) => {
+    setFormState(prevState => ({
+      ...prevState,
+      calories,
+    }));
+  };
+
   const handleSubmit = () => {
+    console.log('ligma', formState.calories);
     if (!formState.name || !formState.calories || !formState.time) {
       return;
     }
@@ -93,28 +108,21 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
       <SafeAreaView>
         <NutrivimInput
           refCallback={ref => setInputRef('name', ref)}
-          onChangeText={name =>
-            setFormState({
-              ...formState,
-              name,
-            })
-          }
+          onChangeText={onNameChange}
           value={formState.name}
           placeholder="What did you eat?"
           onSubmitEditing={() => focusNextInput('calories')}
+          returnKeyType="next"
         />
         <NutrivimInput
           refCallback={ref => setInputRef('calories', ref)}
-          onChangeText={calories =>
-            setFormState({
-              ...formState,
-              calories,
-            })
-          }
+          onChangeText={onCaloriesChange}
           value={formState.calories}
           placeholder="How many calories?"
+          returnKeyType="done"
           keyboardType="numeric"
           mt={2}
+          onSubmitEditing={() => handleSubmit()}
         />
         <View mt={4}>
           {Platform.OS === 'ios' && (
