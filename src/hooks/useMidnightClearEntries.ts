@@ -38,7 +38,6 @@ const useMidnightClearEntries = () => {
         appState.current.match(/inactive|background/) &&
         nextAppState === 'active'
       ) {
-        console.log('app foregrounded');
         checkAndClearFoodEntries(queryClient);
       }
 
