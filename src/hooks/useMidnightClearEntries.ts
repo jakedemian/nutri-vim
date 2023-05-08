@@ -4,6 +4,7 @@ import { AppState } from 'react-native';
 import { QueryClient, useQueryClient } from 'react-query';
 
 import { entryRepo } from 'src/common/repositories';
+import { showSuccessToast } from 'src/common/toast';
 import { getFoodEntriesQueryKey } from 'src/hooks/useFoodEntries';
 
 const LAST_CLEAR_DATETIME_KEY = 'LAST_CLEAR_DATETIME';
@@ -25,6 +26,7 @@ const checkAndClearFoodEntries = async (queryClient: QueryClient) => {
     await entryRepo.updateAll([]);
     await queryClient.invalidateQueries(getFoodEntriesQueryKey());
     await setLastClearDatetime(now);
+    showSuccessToast("Day's entries have reset");
   }
 };
 
