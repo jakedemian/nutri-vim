@@ -73,7 +73,6 @@ const List: React.FC = () => {
                     ? setSelectedItem(-1)
                     : setSelectedItem(index)
                 }
-                onPressOut={() => console.log('out')}
               >
                 <HStack>
                   <VStack flex={1}>

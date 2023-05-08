@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { SafeAreaView, Platform } from 'react-native';
 import uuid from 'react-native-uuid';
 import DateTimePicker, {
@@ -21,13 +21,44 @@ type AddEntryModalProps = {
   hide: () => void;
 };
 
-type AddEntryFormData = {
-  name?: string;
-  calories?: string;
+export type AddEntryFormData = {
+  name: string;
+  calories: string;
   time: string;
 };
 
-const getDefaultFormState = () => {
+export type AddEntryAction =
+  | { type: 'SET_NAME'; payload: string }
+  | { type: 'SET_CALORIES'; payload: string }
+  | { type: 'SET_TIME'; payload: string }
+  | { type: 'RESET_FORM' };
+
+const actionTypes = {
+  SET_NAME: 'SET_NAME',
+  SET_CALORIES: 'SET_CALORIES',
+  SET_TIME: 'SET_TIME',
+  RESET_FORM: 'RESET_FORM',
+} as const;
+
+const formReducer = (
+  state: AddEntryFormData,
+  action: AddEntryAction
+): AddEntryFormData => {
+  switch (action.type) {
+    case actionTypes.SET_NAME:
+      return { ...state, name: action.payload };
+    case actionTypes.SET_CALORIES:
+      return { ...state, calories: action.payload };
+    case actionTypes.SET_TIME:
+      return { ...state, time: action.payload };
+    case actionTypes.RESET_FORM:
+      return getDefaultFormState();
+    default:
+      return state;
+  }
+};
+
+const getDefaultFormState = (): AddEntryFormData => {
   return {
     name: '',
     calories: '',
@@ -36,28 +67,25 @@ const getDefaultFormState = () => {
 };
 
 const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
-  const [formState, setFormState] = useState<AddEntryFormData>(
-    getDefaultFormState()
-  );
+  const [formState, dispatch] = useReducer(formReducer, getDefaultFormState());
   const { addFoodEntry } = useFoodEntries();
   const { setInputRef, focusNextInput } = useInputFocus();
 
   const onNameChange = (name: string) => {
-    setFormState(prevState => ({
-      ...prevState,
-      name,
-    }));
+    dispatch({ type: actionTypes.SET_NAME, payload: name });
   };
 
   const onCaloriesChange = (calories: string) => {
-    setFormState(prevState => ({
-      ...prevState,
-      calories,
-    }));
+    dispatch({ type: actionTypes.SET_CALORIES, payload: calories });
   };
 
+  useEffect(() => {
+    if (visible) {
+      dispatch({ type: actionTypes.RESET_FORM });
+    }
+  }, [visible]);
+
   const handleSubmit = () => {
-    console.log('ligma', formState.calories);
     if (!formState.name || !formState.calories || !formState.time) {
       return;
     }
@@ -69,14 +97,9 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
       time: formState.time,
       createdAt: new Date().toString(),
     });
+    dispatch({ type: actionTypes.RESET_FORM });
     hide();
   };
-
-  useEffect(() => {
-    if (!visible) {
-      setFormState(getDefaultFormState());
-    }
-  }, [visible]);
 
   return (
     <NutrivimModal
@@ -97,7 +120,6 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
           <Button
             onPress={() => {
               handleSubmit();
-              hide();
             }}
           >
             Add
@@ -131,9 +153,9 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
               mode={'time'}
               is24Hour={false}
               onChange={(event, value) =>
-                setFormState({
-                  ...formState,
-                  time: getLocalTimeStringFromDate(value as Date),
+                dispatch({
+                  type: actionTypes.SET_TIME,
+                  payload: getLocalTimeStringFromDate(value as Date),
                 })
               }
             />
@@ -147,9 +169,9 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
                     value: new Date(formState.time),
                     onChange: (e, value) => {
                       if (value) {
-                        setFormState({
-                          ...formState,
-                          time: getLocalTimeStringFromDate(value),
+                        dispatch({
+                          type: actionTypes.SET_TIME,
+                          payload: getLocalTimeStringFromDate(value as Date),
                         });
                       } else {
                         console.error(

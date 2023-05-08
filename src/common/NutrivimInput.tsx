@@ -1,6 +1,5 @@
-import debounce from 'lodash.debounce';
 import { Input } from 'native-base';
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import {
   KeyboardTypeOptions,
   ReturnKeyTypeOptions,
@@ -29,33 +28,17 @@ const NutrivimInput: React.FC<NutrivimInputProps> = props => {
     refCallback,
     returnKeyType,
   } = props;
-  const [localValue, setLocalValue] = useState<string | undefined>(value);
-
-  const debouncedOnChangeText = useCallback(
-    debounce(value => {
-      onChangeText(value);
-    }, 300),
-    [onChangeText]
-  );
-
-  useEffect(() => {
-    debouncedOnChangeText(localValue);
-  }, [localValue]);
-
-  const handleBlur = () => {
-    onChangeText(localValue as string);
-  };
 
   return (
     <Input
-      onChangeText={setLocalValue}
-      value={localValue}
+      onChangeText={onChangeText}
+      value={value}
       placeholder={placeholder}
       keyboardType={keyboardType}
       returnKeyType={returnKeyType}
       mt={mt}
       onSubmitEditing={onSubmitEditing}
-      onBlur={handleBlur}
+      // onBlur={handleBlur}
       blurOnSubmit={false}
       ref={refCallback}
     />
