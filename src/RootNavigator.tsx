@@ -7,6 +7,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import Today from 'src/screens/Today';
 import { ModalContext } from 'src/context/ModalContext';
 import List from 'src/screens/List';
+import useMidnightClearEntries from 'src/hooks/useMidnightClearEntries';
 
 const Tab = createBottomTabNavigator();
 const TAB_FOCUS_COLOR = '#fff';
@@ -15,6 +16,7 @@ const TAB_BLUR_COLOR = '#aaa';
 const RootNavigator: React.FC = () => {
   const { showAddEntryModal, showClearDayModal } = useContext(ModalContext);
   const { colors } = useTheme();
+  useMidnightClearEntries();
 
   return (
     <Tab.Navigator

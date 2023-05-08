@@ -1,5 +1,5 @@
 /* eslint-disable no-relative-import-paths/no-relative-import-paths */
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import {
   NavigationContainer,
   NavigationContainerRef,
@@ -12,7 +12,7 @@ import RootNavigator from './src/RootNavigator';
 import { ModalProvider } from './src/context/ModalContext';
 import { theme } from './src/theme/theme';
 import queryClient from './src/common/queryClient';
-import { registerClearFoodEntriesTask } from './src/common/backgroundTask';
+
 // If using route params, add them here
 // eslint-disable-next-line @typescript-eslint/ban-types
 type RootStackParamList = {};
@@ -46,10 +46,6 @@ const toastConfig = {
 
 export default function App() {
   const navigation = useRef<NavigationContainerRef<RootStackParamList>>(null);
-
-  useEffect(() => {
-    registerClearFoodEntriesTask();
-  }, []);
 
   return (
     <>
