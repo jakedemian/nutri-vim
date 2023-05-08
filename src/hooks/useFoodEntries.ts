@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import Toast from 'react-native-toast-message';
 
 import { Entry } from 'src/common/types';
 import { entryRepo } from 'src/common/repositories';
+import { showSuccessToast } from 'src/common/toast';
 
 export const getFoodEntriesQueryKey = () => ['GET_FOOD_ENTRIES_QUERY_KEY'];
 
@@ -30,48 +30,28 @@ export const useFoodEntries = () => {
     await entryRepo.update(entry);
     queryClient.invalidateQueries(getFoodEntriesQueryKey());
 
-    Toast.show({
-      type: 'success',
-      text1: 'Success',
-      text2: 'Changes saved successfully',
-      position: 'bottom',
-    });
+    showSuccessToast('Changes saved successfully');
   };
 
   const addFoodEntry = async (entry: Entry) => {
     await entryRepo.add(entry);
     queryClient.invalidateQueries(getFoodEntriesQueryKey());
 
-    Toast.show({
-      type: 'success',
-      text1: 'Success',
-      text2: 'Got it!',
-      position: 'bottom',
-    });
+    showSuccessToast('Entry was added');
   };
 
   const deleteFoodEntry = async (entryId: string) => {
     await entryRepo.delete(entryId);
     queryClient.invalidateQueries(getFoodEntriesQueryKey());
 
-    Toast.show({
-      type: 'success',
-      text1: 'Success',
-      text2: 'Entry was deleted',
-      position: 'bottom',
-    });
+    showSuccessToast('Entry was deleted');
   };
 
   const clearFoodEntries = async () => {
     await entryRepo.updateAll([]);
     queryClient.invalidateQueries(getFoodEntriesQueryKey());
 
-    Toast.show({
-      type: 'success',
-      text1: 'Success',
-      text2: 'All entries deleted',
-      position: 'bottom',
-    });
+    showSuccessToast('Day has been reset');
   };
 
   return {
