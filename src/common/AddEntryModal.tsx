@@ -71,7 +71,6 @@ const AddEntryModal: React.FC<AddEntryModalProps> = ({ visible, hide }) => {
   const [formState, dispatch] = useReducer(formReducer, getDefaultFormState());
   const { addFoodEntry } = useFoodEntries();
   const { setInputRef, focusNextInput } = useInputFocus();
-  showSuccessToast('hi');
 
   const onNameChange = (name: string) => {
     dispatch({ type: actionTypes.SET_NAME, payload: name });
