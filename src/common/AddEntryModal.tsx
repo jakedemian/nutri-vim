@@ -15,7 +15,6 @@ import {
 } from 'src/util/getCurrentLocalTimeISOString';
 import NutrivimInput from 'src/common/NutrivimInput';
 import { useInputFocus } from 'src/hooks/useInputFocus';
-import { showSuccessToast } from 'src/common/toast';
 
 type AddEntryModalProps = {
   visible: boolean;

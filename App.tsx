@@ -1,21 +1,21 @@
 /* eslint-disable no-relative-import-paths/no-relative-import-paths */
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   NavigationContainer,
   NavigationContainerRef,
 } from '@react-navigation/native';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from 'react-query';
 import Toast, { SuccessToast } from 'react-native-toast-message';
 import { NativeBaseProvider } from 'native-base';
 
 import RootNavigator from './src/RootNavigator';
 import { ModalProvider } from './src/context/ModalContext';
 import { theme } from './src/theme/theme';
-
+import queryClient from './src/common/queryClient';
+import { registerClearFoodEntriesTask } from './src/common/backgroundTask';
 // If using route params, add them here
 // eslint-disable-next-line @typescript-eslint/ban-types
 type RootStackParamList = {};
-const queryClient = new QueryClient();
 
 const toastConfig = {
   success: props => (
@@ -46,6 +46,10 @@ const toastConfig = {
 
 export default function App() {
   const navigation = useRef<NavigationContainerRef<RootStackParamList>>(null);
+
+  useEffect(() => {
+    registerClearFoodEntriesTask();
+  }, []);
 
   return (
     <>
