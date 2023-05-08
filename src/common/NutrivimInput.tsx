@@ -13,7 +13,7 @@ interface NutrivimInputProps {
   keyboardType?: KeyboardTypeOptions;
   mt?: number;
   onSubmitEditing?: () => void;
-  refCallback?: (ref: TextInput) => void;
+  refCallback?: (ref: TextInput) => void; // used for finding and tabbing to the next input
   returnKeyType?: ReturnKeyTypeOptions;
 }
 
@@ -38,7 +38,6 @@ const NutrivimInput: React.FC<NutrivimInputProps> = props => {
       returnKeyType={returnKeyType}
       mt={mt}
       onSubmitEditing={onSubmitEditing}
-      // onBlur={handleBlur}
       blurOnSubmit={false}
       ref={refCallback}
     />
