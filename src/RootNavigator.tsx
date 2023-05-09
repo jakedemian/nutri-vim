@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useTheme, Icon, IconButton, Text } from 'native-base';
+import { useTheme, Icon, IconButton, Text, View } from 'native-base';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import Today from 'src/screens/Today';
 import { ModalContext } from 'src/context/ModalContext';
 import List from 'src/screens/List';
 import useMidnightClearEntries from 'src/hooks/useMidnightClearEntries';
+import Settings from 'src/screens/Settings';
 
 const Tab = createBottomTabNavigator();
 const TAB_FOCUS_COLOR = '#fff';
@@ -67,6 +68,9 @@ const RootNavigator: React.FC = () => {
           } else if (route.name === 'List') {
             text = 'List';
             color = focused ? TAB_FOCUS_COLOR : TAB_BLUR_COLOR;
+          } else if (route.name === 'Settings') {
+            text = 'Settings';
+            color = focused ? TAB_FOCUS_COLOR : TAB_BLUR_COLOR;
           }
 
           return (
@@ -91,6 +95,9 @@ const RootNavigator: React.FC = () => {
           } else if (route.name === 'List') {
             iconName = focused ? 'th-list' : 'list';
             color = focused ? TAB_FOCUS_COLOR : TAB_BLUR_COLOR;
+          } else if (route.name === 'Settings') {
+            iconName = focused ? 'cog' : 'cog';
+            color = focused ? TAB_FOCUS_COLOR : TAB_BLUR_COLOR;
           }
 
           return (
@@ -101,6 +108,7 @@ const RootNavigator: React.FC = () => {
     >
       <Tab.Screen name="Today" component={Today} />
       <Tab.Screen name="List" component={List} />
+      <Tab.Screen name="Settings" component={Settings} />
     </Tab.Navigator>
   );
 };
