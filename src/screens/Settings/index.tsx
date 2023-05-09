@@ -20,9 +20,6 @@ const Settings: React.FC = () => {
     );
   }
 
-  console.log(settings);
-  // TODO trying to figure out why my settings aren't propogating when I hit the toggle
-
   return (
     <>
       <ScrollView backgroundColor={'primary.900'}>

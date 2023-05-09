@@ -4,6 +4,7 @@ import { AppState } from 'react-native';
 import { QueryClient, useQueryClient } from 'react-query';
 
 import { entryRepo } from 'src/common/repositories';
+import { settingsRepo } from 'src/common/repositories';
 import { showSuccessToast } from 'src/common/toast';
 import { getFoodEntriesQueryKey } from 'src/hooks/useFoodEntries';
 
@@ -19,6 +20,11 @@ async function setLastClearDatetime(datetime: Date) {
 }
 
 const checkAndClearFoodEntries = async (queryClient: QueryClient) => {
+  const autoResetDailySetting = await settingsRepo.get('autoResetDaily');
+  if (!autoResetDailySetting || !autoResetDailySetting.value) {
+    return;
+  }
+
   const lastClearDatetime = await getLastClearDatetime();
   const now = new Date();
 

@@ -24,8 +24,6 @@ const useSettings = () => {
     console.log('updateSetting -> ', id, value);
     await settingsRepo.update(id, value);
     queryClient.invalidateQueries(getSettingsQueryKey());
-
-    // showSuccessToast('Changes saved successfully');
   };
 
   return { settings: query.data, isLoading: query.isLoading, updateSetting };

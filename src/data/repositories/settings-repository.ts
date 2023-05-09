@@ -31,7 +31,7 @@ const DEFAULT_SETTINGS_VALUES: Settings = {
 };
 
 export class SettingsRepository implements SettingsRepositoryInterface {
-  async getAll() {
+  async getAll(): Promise<Settings> {
     try {
       const stringJson = await AsyncStorage.getItem(getSettingsStorageKey());
       if (!stringJson) {
@@ -45,7 +45,7 @@ export class SettingsRepository implements SettingsRepositoryInterface {
     }
   }
 
-  async get(id: SettingsKey) {
+  async get(id: SettingsKey): Promise<Setting | null> {
     try {
       const settings: Settings = await this.getAll();
       const setting: Setting = settings[id];
@@ -59,8 +59,8 @@ export class SettingsRepository implements SettingsRepositoryInterface {
     }
   }
 
-  async update(id: SettingsKey, value: SettingsValue) {
-    const setting: Setting = await this.get(id);
+  async update(id: SettingsKey, value: SettingsValue): Promise<void> {
+    const setting = await this.get(id);
     if (!setting) {
       throw new SettingNotFoundError(`Setting with id ${id} was not found.`);
     }
@@ -71,7 +71,7 @@ export class SettingsRepository implements SettingsRepositoryInterface {
       throw new SettingsNotFoundError(`Settings data not found.`);
     }
 
-    const allSettings: Settings = JSON.parse(allSettingsStringJson);
+    const allSettings: Settings = allSettingsStringJson;
     allSettings[id] = setting;
     await AsyncStorage.setItem(
       getSettingsStorageKey(),
@@ -79,7 +79,7 @@ export class SettingsRepository implements SettingsRepositoryInterface {
     );
   }
 
-  private async init() {
+  private async init(): Promise<Settings> {
     const allSettings: Settings = DEFAULT_SETTINGS_VALUES;
     await AsyncStorage.setItem(
       getSettingsStorageKey(),
