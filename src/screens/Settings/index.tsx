@@ -1,5 +1,5 @@
 import React from 'react';
-import { HStack, ScrollView, Switch, Text, View, VStack } from 'native-base';
+import { HStack, ScrollView, Switch, Text, VStack } from 'native-base';
 
 import useSettings from 'src/hooks/useSettings';
 import FullScreenLoader from 'src/common/FullScreenLoader';

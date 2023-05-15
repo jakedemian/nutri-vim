@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from 'react-query';
 
 import { settingsRepo } from 'src/common/repositories';
-import { SettingsKey, SettingsValue } from 'src/common/types/types';
+import { SettingsKey, SettingsValue } from 'src/common/types/settings.types';
 
 export const getSettingsQueryKey = () => ['GET_SETTINGS_QUERY_KEY'];
 
