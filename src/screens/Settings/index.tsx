@@ -8,10 +8,12 @@ import {
   Text,
   VStack,
 } from 'native-base';
+import * as Clipboard from 'expo-clipboard';
 
 import useSettings from 'src/hooks/useSettings';
 import FullScreenLoader from 'src/common/FullScreenLoader';
 import { useLogging } from 'src/hooks/useLogging';
+import { showSuccessToast } from 'src/common/toast';
 
 const Settings: React.FC = () => {
   const { settings, isLoading, updateSetting } = useSettings();
@@ -70,7 +72,11 @@ const Settings: React.FC = () => {
                 <Button
                   variant={'ghost'}
                   ml={4}
-                  onPress={() => console.log('TODO copy logs')}
+                  onPress={() => {
+                    Clipboard.setStringAsync(logs.join('\n')).then(() => {
+                      showSuccessToast('Copied logs to clipboard!');
+                    });
+                  }}
                 >
                   <Text color="primary.200">Copy Logs</Text>
                 </Button>
@@ -80,6 +86,7 @@ const Settings: React.FC = () => {
                 multiline
                 placeholder="Logs will be displayed here..."
                 height={200}
+                color="gray.400"
                 value={logs.join('\n')}
               ></Input>
             </VStack>

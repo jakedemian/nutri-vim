@@ -2,8 +2,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { getFormattedDisplayTime } from 'src/util/getFormattedDisplayTime';
-
 interface LoggingContextProps {
   logs: string[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,7 +35,7 @@ export const LoggingProvider: React.FC<{ children: React.ReactNode }> = ({
   const appendLog = async (...args: any[]) => {
     console.log(...args);
     const log =
-      `[${getFormattedDisplayTime()}] ` +
+      `[${new Date()}] ` +
       args
         .map(arg => {
           if (typeof arg === 'object') {
