@@ -21,3 +21,4 @@ web-build/
 .vscode
 yarn-error.log
 changes.patch
+scratch/
