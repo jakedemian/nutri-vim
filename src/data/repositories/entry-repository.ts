@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Entry } from 'src/common/types';
+import { Entry } from 'src/common/types/types';
 import { EntryRepositoryInterface } from 'src/data/repositories/interfaces/entry-repository.interface';
 
 export const getFoodEntriesStorageKey = () => 'FOOD_ENTRIES';

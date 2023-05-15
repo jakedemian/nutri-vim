@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 
-import { Entry } from 'src/common/types';
+import { Entry } from 'src/common/types/types';
 import { entryRepo } from 'src/common/repositories';
 import { showSuccessToast } from 'src/common/toast';
 

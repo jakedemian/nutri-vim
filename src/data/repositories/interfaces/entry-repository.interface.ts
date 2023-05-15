@@ -1,4 +1,4 @@
-import { Entry } from 'src/common/types';
+import { Entry } from 'src/common/types/types';
 
 export interface EntryRepositoryInterface {
   getAll(): Promise<Entry[]>;

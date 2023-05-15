@@ -5,7 +5,7 @@ import {
   Settings,
   SettingsKey,
   SettingsValue,
-} from 'src/common/types';
+} from 'src/common/types/types';
 import { SettingsRepositoryInterface } from 'src/data/repositories/interfaces/settings-repository.interface';
 
 export const getSettingsStorageKey = () => 'SETTINGS';

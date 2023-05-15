@@ -13,7 +13,7 @@ import {
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
-import { Entry } from 'src/common/types';
+import { Entry } from 'src/common/types/types';
 import { formatDisplayTime } from 'src/util/formatDisplayTime';
 import NutrivimModal from 'src/common/NutrivimModal';
 import EditEntryModal from 'src/common/EditEntryModal';

@@ -1,4 +1,4 @@
-import { Setting, Settings, SettingsValue } from 'src/common/types';
+import { Setting, Settings, SettingsValue } from 'src/common/types/types';
 
 export interface SettingsRepositoryInterface {
   getAll(): Promise<Settings>;

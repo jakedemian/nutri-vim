@@ -6,7 +6,7 @@ import DateTimePicker, {
 import { Button, HStack, View, Text } from 'native-base';
 
 import NutrivimModal from 'src/common/NutrivimModal';
-import { Entry } from 'src/common/types';
+import { Entry } from 'src/common/types/types';
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
 import { formatDisplayTime } from 'src/util/formatDisplayTime';
 import {
