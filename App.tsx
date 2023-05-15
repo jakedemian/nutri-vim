@@ -12,6 +12,7 @@ import { StatusBar } from 'expo-status-bar';
 import RootNavigator from './src/RootNavigator';
 import { ModalProvider } from './src/context/ModalContext';
 import { theme } from './src/theme/theme';
+import { LoggingProvider } from './src/context/LoggingContext';
 
 // If using route params, add them here
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -52,13 +53,15 @@ export default function App() {
     <>
       <QueryClientProvider client={queryClient}>
         <NativeBaseProvider theme={theme}>
-          <StatusBar style="light" />
-          <NavigationContainer ref={navigation}>
-            <ModalProvider>
-              <RootNavigator />
-            </ModalProvider>
-          </NavigationContainer>
-          <Toast config={toastConfig} />
+          <LoggingProvider>
+            <StatusBar style="light" />
+            <NavigationContainer ref={navigation}>
+              <ModalProvider>
+                <RootNavigator />
+              </ModalProvider>
+            </NavigationContainer>
+            <Toast config={toastConfig} />
+          </LoggingProvider>
         </NativeBaseProvider>
       </QueryClientProvider>
     </>

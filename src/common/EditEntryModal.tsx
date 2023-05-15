@@ -8,7 +8,7 @@ import { Button, HStack, View, Text } from 'native-base';
 import NutrivimModal from 'src/common/NutrivimModal';
 import { Entry } from 'src/common/types/types';
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
-import { formatDisplayTime } from 'src/util/formatDisplayTime';
+import { getFormattedDisplayTime } from 'src/util/getFormattedDisplayTime';
 import {
   getCurrentLocalTimeString,
   getLocalTimeStringFromDate,
@@ -231,7 +231,7 @@ const EditEntryModal: React.FC<EditEntryModalProps> = ({
                 }
               >
                 <Text fontSize={24}>
-                  {formatDisplayTime(formState.time as string)}
+                  {getFormattedDisplayTime(formState.time as string)}
                 </Text>
               </Button>
             </HStack>

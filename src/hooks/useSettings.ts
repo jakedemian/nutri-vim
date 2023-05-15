@@ -2,16 +2,17 @@ import { useQuery, useQueryClient } from 'react-query';
 
 import { settingsRepo } from 'src/common/repositories';
 import { SettingsKey, SettingsValue } from 'src/common/types/settings.types';
+import { useLogging } from 'src/hooks/useLogging';
 
 export const getSettingsQueryKey = () => ['GET_SETTINGS_QUERY_KEY'];
 
 const useSettings = () => {
   const queryClient = useQueryClient();
+  const { appendLog } = useLogging();
 
   const query = useQuery(
     getSettingsQueryKey(),
     () => {
-      console.log('fetching settings');
       return settingsRepo.getAll();
     },
     {
@@ -21,7 +22,7 @@ const useSettings = () => {
   );
 
   const updateSetting = async (id: SettingsKey, value: SettingsValue) => {
-    console.log('updateSetting -> ', id, value);
+    appendLog('updateSetting -> ', id, value);
     await settingsRepo.update(id, value);
     queryClient.invalidateQueries(getSettingsQueryKey());
   };

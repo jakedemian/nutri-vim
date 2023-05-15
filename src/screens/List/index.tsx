@@ -14,7 +14,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 import { useFoodEntries } from 'src/hooks/useFoodEntries';
 import { Entry } from 'src/common/types/types';
-import { formatDisplayTime } from 'src/util/formatDisplayTime';
+import { getFormattedDisplayTime } from 'src/util/getFormattedDisplayTime';
 import NutrivimModal from 'src/common/NutrivimModal';
 import EditEntryModal from 'src/common/EditEntryModal';
 import FullScreenLoader from 'src/common/FullScreenLoader';
@@ -115,7 +115,7 @@ const List: React.FC = () => {
                       </HStack>
                     ) : (
                       <Text color="white" fontSize={24}>
-                        {formatDisplayTime(entry.time)}
+                        {getFormattedDisplayTime(entry.time)}
                       </Text>
                     )}
                   </HStack>
