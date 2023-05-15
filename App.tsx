@@ -4,18 +4,19 @@ import {
   NavigationContainer,
   NavigationContainerRef,
 } from '@react-navigation/native';
-import { QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import Toast, { SuccessToast } from 'react-native-toast-message';
 import { NativeBaseProvider } from 'native-base';
+import { StatusBar } from 'expo-status-bar';
 
 import RootNavigator from './src/RootNavigator';
 import { ModalProvider } from './src/context/ModalContext';
 import { theme } from './src/theme/theme';
-import queryClient from './src/common/queryClient';
 
 // If using route params, add them here
 // eslint-disable-next-line @typescript-eslint/ban-types
 type RootStackParamList = {};
+const queryClient = new QueryClient();
 
 const toastConfig = {
   success: props => (
@@ -51,6 +52,7 @@ export default function App() {
     <>
       <QueryClientProvider client={queryClient}>
         <NativeBaseProvider theme={theme}>
+          <StatusBar style="light" />
           <NavigationContainer ref={navigation}>
             <ModalProvider>
               <RootNavigator />

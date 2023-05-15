@@ -28,6 +28,7 @@ export default {
         backgroundColor: '#FFFFFF',
       },
       softwareKeyboardLayoutMode: 'pan',
+      package: 'com.jakedemian.nutrivim'
     },
     web: {
       favicon: './assets/favicon.png',
